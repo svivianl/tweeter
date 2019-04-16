@@ -7,8 +7,11 @@ $(document).ready(function() {
   const countValue = Number($('.counter').text());
 
   $('.new-tweet textarea').on('input', function(e){
+
+    e.stopPropagation();
+
     const newValue = countValue - this.textLength;
-    var colour = '#244751';
+    let colour = '#244751';
 
     $('.counter', $(this).parent()).text(newValue);
 
