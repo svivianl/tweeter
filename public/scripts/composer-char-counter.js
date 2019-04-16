@@ -1,3 +1,7 @@
+// $('#main').append(          )
+
+
+
 $(document).ready(function() {
 
   const countValue = Number($('.counter').text());
@@ -14,6 +18,5 @@ $(document).ready(function() {
 
     $('.counter', $(this).parent()).css('color', colour);
   });
-
 
 });

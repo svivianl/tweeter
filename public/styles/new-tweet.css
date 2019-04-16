@@ -4,6 +4,7 @@
   background-color: #eee;
   padding: 0 2em;
   margin: 0 2em auto 2em;
+  padding-bottom: 0.5em;
 }
 
 .container h2{
@@ -12,7 +13,9 @@
 
 .container textarea{
   width: 100%;
+  height: 80px;
   padding: 4px;
+  resize: none;
 }
 
 .counter{
