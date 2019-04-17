@@ -32,14 +32,18 @@
   line-height: 2.5;
 }
 
-.tweet-article .tag{
-  float: right;
-  margin-right: 0.5em;
-}
-
 .tweet-article main{
   width: auto;
   padding: 0.5em;
+}
+
+.tweet-article p{
+  opacity: 1;
+}
+
+.tweet-article .tag{
+  float: right;
+  margin-right: 0.5em;
 }
 
 .tweet-article footer{
@@ -56,6 +60,7 @@
 .tweet-article:hover{
   opacity: 1;
 }
+
 
 .tweet-article footer div.icons{
   float: right;
