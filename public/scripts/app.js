@@ -40,7 +40,8 @@ $(document).ready(() => {
   }
 
   const createTweetElement = (data) => {
-    let $article = $('<article class="tweet-article"></article>');
+    let $article = $('<article></article>');
+    $article.addClass("tweet-article");
 
     // build header
     let $header = $('<header></header>');
@@ -52,7 +53,8 @@ $(document).ready(() => {
     $nameStrong.text(data.user.name);
     $nameLabel.append($nameStrong);
     $header.append($nameLabel);
-    let $handleLabel = $(`<label class="tag"></label>`);
+    let $handleLabel = $(`<label></label>`);
+    $handleLabel.addClass('tag');
     $handleLabel.text(data.user.handle);
     $header.append($handleLabel);
 
@@ -67,10 +69,14 @@ $(document).ready(() => {
     let $label = $(`<label></label>`);
     $label.text(timeSince(new Date(Date.now() - data.created_at)));
     $footer.append($label);
-    let $div = $('<div class="icons"></div>');
-    const $heart = $('<i class="fas fa-heart"></i>');
-    const $retweet = $('<i class="fas fa-retweet"></i>');
-    const $flag = $('<i class="fas fa-flag"></i>');
+    let $div = $('<div></div>');
+    $div.addClass("icons");
+    let $heart = $('<i></i>');
+    $heart.addClass("fas fa-heart");
+    let $retweet = $('<i></i>');
+    $retweet.addClass("fas fa-retweet");
+    let $flag = $('<i></i>');
+    $flag.addClass("fas fa-flag");
     $div.append($heart);
     $div.append($retweet);
     $div.append($flag);
@@ -96,13 +102,13 @@ $(document).ready(() => {
     });
 
     // to add it to the page so we can make sure it's got all the right elements, classes, etc.
-    // $('#tweets-container').append(newTweets.join(''));
+    $('#tweets-container').append(newTweets);
   }
 
   const loadTweets = () => {
     $.ajax('/tweets', { method: 'GET' })
       .then(function (tweets) {
-        renderTweets(tweets);
+        if(tweets){ renderTweets(tweets); }
       });
   }
 
@@ -120,22 +126,39 @@ $(document).ready(() => {
   $('.new-tweet form').submit(function(e){
     e.preventDefault();
 
+    // usrInput = "text=blablablaba"
     const usrInput = $('textarea', $(this).parent()).serialize();
-    // const usrInput = $('textarea', $(this).parent()).val();
+    let inputs = usrInput.split('=');
+    let message = '';
 
-    $.post('/tweets', usrInput)
-    // $.post('/tweets',{text: usrInput})
-    .done(function(newTweet){
-    console.log('done');
-      if(newTweet){
-    debugger;
-        // $('textarea', $(this).parent()).val('');
-        // createTweetElement(newTweet);
-       }
-    })
-    .fail(function(err){
-      console.log(err);
-    });
+    if( ( !inputs[1] ) || ( !inputs[1].replace(/\s/g, '') ) ){
+      message = 'Invalid text';
+    }
+
+    if( Number($('.counter', $(this).parent()).text()) < 0){
+      message = 'Content is too long' ;
+    }
+
+    if(message){
+      alert(message);
+    }else{
+
+      $.post('/tweets', usrInput)
+      // $.post('/tweets',{text: usrInput})
+      .done(function(newTweet){
+        // console.log('done');
+
+        if(newTweet){
+          let $tweet = createTweetElement(newTweet);
+          $('#tweets-container').prepend($tweet);
+      // debugger;
+          $('.new-tweet textarea').val('');
+         }
+      })
+      .fail(function(err){
+        console.log(err);
+      });
+    }
   });
 
 
