@@ -28,7 +28,7 @@
 }
 
 .new-tweet .message{
-  display: block;
+  display: none;
   margin: 0.5em;
 }
 

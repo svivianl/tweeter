@@ -94,7 +94,11 @@ $(document).ready(() => {
     $(element).removeClass('success');
     $(element).text('');
     $(element).addClass('message');
-    $(element).slideToggle();
+
+    if($(element).css('Display') === 'block'){
+      $(element).slideToggle();
+    }
+
   }
 
   const setMessage = (element, message, type) => {
@@ -118,12 +122,10 @@ $(document).ready(() => {
     $(element).addClass(messageClass);
     $(element).text(message);
 
-    // if($(".container .new-tweet").hasClass('message')){
-    //   $('.new-tweet div').removeClass('message');
-    // }
+    if($(element).css('Display') === 'none'){
+      $(element).slideToggle();
+    }
 
-    $(element).slideToggle();
-    // $('.new-tweet p').toggleClass('message');
   }
 
 /*------------------------------------------------------------------------------------
@@ -147,28 +149,27 @@ $(document).ready(() => {
     const $this = $(this);
     const clicked = 'btn-nav-cliked';
     const unclicked = 'btn-nav-uncliked';
-    // const noDisplay = 'new-tweet-no-display';
     let remove = unclicked;
     let add = clicked;
 
     if($this.hasClass(clicked)){
       remove = clicked;
       add = unclicked;
+
+    }else{
+      clearMessage('.new-tweet div');
     }
 
     $('.new-tweet textarea').focus();
 
     $(this).removeClass(remove);
     $(this).addClass(add);
-
-    clearMessage('.new-tweet div');
   });
 
   // submit tweet
   $('.new-tweet form').submit(function(e){
     e.preventDefault();
 
-    clearMessage('.new-tweet div');
 
     // usrInput = "text=blablablaba"
     const usrInput = $('textarea', $(this).parent()).serialize();
@@ -177,15 +178,6 @@ $(document).ready(() => {
 
     if( ( !inputs[1] ) || ( !inputs[1].replace(/\s/g, '') ) ){
       message = 'Invalid text';
-    }
-
-    // validade input
-    const words = inputs[1].split(' ');
-    for(let word of words){
-      if(word.length > 49){
-        message = 'You have a word that is too long';
-        break;
-      }
     }
 
     if( Number($('.counter', $(this).parent()).text()) < 0){
@@ -207,6 +199,7 @@ $(document).ready(() => {
       // debugger;
           $('.new-tweet textarea').val('');
           $('.new-tweet .counter').text(charCount);
+          clearMessage('.new-tweet div');
          }
       })
       .fail(function(err){
