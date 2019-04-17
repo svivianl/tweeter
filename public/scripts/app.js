@@ -4,6 +4,8 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
+const charCount = '140';
+
 /*************************************************************************************
  DOCUMENT READY
 *************************************************************************************/
@@ -12,32 +14,6 @@ $(document).ready(() => {
 /*------------------------------------------------------------------------------------
   FUNCTIONS
 ------------------------------------------------------------------------------------*/
-  const timeSince = (date) => {
-
-    let seconds = Math.floor((new Date() - date) / 1000);
-    let interval = Math.floor(seconds / 31536000);
-
-    if (interval > 1) {
-      return interval + " years";
-    }
-    interval = Math.floor(seconds / 2592000);
-    if (interval > 1) {
-      return interval + " months";
-    }
-    interval = Math.floor(seconds / 86400);
-    if (interval > 1) {
-      return interval + " days";
-    }
-    interval = Math.floor(seconds / 3600);
-    if (interval > 1) {
-      return interval + " hours";
-    }
-    interval = Math.floor(seconds / 60);
-    if (interval > 1) {
-      return interval + " minutes";
-    }
-    return Math.floor(seconds) + " seconds";
-  }
 
   const createTweetElement = (data) => {
     let $article = $('<article></article>');
@@ -67,7 +43,7 @@ $(document).ready(() => {
     // build footer
     let $footer = $('<footer></footer>');
     let $label = $(`<label></label>`);
-    $label.text(timeSince(new Date(Date.now() - data.created_at)));
+    $label.text(moment(Date.now()).from(data.created_at).replace('in', '') + ' ago');
     $footer.append($label);
     let $div = $('<div></div>');
     $div.addClass("icons");
@@ -112,9 +88,49 @@ $(document).ready(() => {
       });
   }
 
+  const clearMessage = (element) => {
+    $(element).removeClass('error');
+    $(element).removeClass('warning');
+    $(element).removeClass('success');
+    $(element).text('');
+    $(element).addClass('message');
+    $(element).slideToggle();
+  }
+
+  const setMessage = (element, message, type) => {
+    // clearMessage(element);
+
+    let messageClass = 'error';
+
+    switch ( type ) {
+      // case 'E':
+
+      //   break;
+
+      case 'S':
+        messageClass = 'success';
+        break;
+
+      default:
+
+    }
+
+    $(element).addClass(messageClass);
+    $(element).text(message);
+
+    // if($(".container .new-tweet").hasClass('message')){
+    //   $('.new-tweet div').removeClass('message');
+    // }
+
+    $(element).slideToggle();
+    // $('.new-tweet p').toggleClass('message');
+  }
+
 /*------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------*/
+  $('.new-tweet .counter').text(charCount);
+
   // renderTweets(data);
   loadTweets();
 
@@ -122,9 +138,37 @@ $(document).ready(() => {
     EVENTS
 ------------------------------------------------------------------------------------*/
 
+  // compose
+  $('#btn-compose').click( function(e){
+
+    $( '.new-tweet' ).slideToggle();
+    e.preventDefault();
+
+    const $this = $(this);
+    const clicked = 'btn-nav-cliked';
+    const unclicked = 'btn-nav-uncliked';
+    // const noDisplay = 'new-tweet-no-display';
+    let remove = unclicked;
+    let add = clicked;
+
+    if($this.hasClass(clicked)){
+      remove = clicked;
+      add = unclicked;
+    }
+
+    $('.new-tweet textarea').focus();
+
+    $(this).removeClass(remove);
+    $(this).addClass(add);
+
+    clearMessage('.new-tweet div');
+  });
+
   // submit tweet
   $('.new-tweet form').submit(function(e){
     e.preventDefault();
+
+    clearMessage('.new-tweet div');
 
     // usrInput = "text=blablablaba"
     const usrInput = $('textarea', $(this).parent()).serialize();
@@ -135,12 +179,21 @@ $(document).ready(() => {
       message = 'Invalid text';
     }
 
+    // validade input
+    const words = inputs[1].split(' ');
+    for(let word of words){
+      if(word.length > 49){
+        message = 'You have a word that is too long';
+        break;
+      }
+    }
+
     if( Number($('.counter', $(this).parent()).text()) < 0){
       message = 'Content is too long' ;
     }
 
     if(message){
-      alert(message);
+      setMessage('.new-tweet div', message, 'E');
     }else{
 
       $.post('/tweets', usrInput)
@@ -153,6 +206,7 @@ $(document).ready(() => {
           $('#tweets-container').prepend($tweet);
       // debugger;
           $('.new-tweet textarea').val('');
+          $('.new-tweet .counter').text(charCount);
          }
       })
       .fail(function(err){

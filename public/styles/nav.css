@@ -20,3 +20,41 @@ nav{
   padding-left: 10px;
   line-height: 2.5;
 }
+
+.btn-nav{
+  float: right;
+  margin: 0.3em 0;
+  border: solid 1px;
+  border-radius: 8px;
+  height: 60px;
+  font-size: 1.5em;
+  padding-right: 0.5em;
+}
+
+.btn-nav:hover{
+  cursor: pointer;
+}
+
+.btn-nav-uncliked{
+  background-color: white;
+  color: black;
+}
+
+.btn-nav-uncliked:hover{
+  background-color: #e8fdff;
+  color: #00a087;
+}
+
+.btn-nav-cliked{
+  background-color: #e8fdff;
+  color: #00a087;
+}
+
+.btn-nav-cliked:hover{
+  background-color: white;
+  color: black;
+}
+
+.btn-nav i{
+  margin: 0.5em;
+}

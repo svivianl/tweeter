@@ -5,6 +5,11 @@
   padding: 0 2em;
   margin: 0 2em auto 2em;
   padding-bottom: 0.5em;
+  display: none;
+}
+
+.new-tweet input{
+  cursor: pointer;
 }
 
 .container h2{
@@ -20,4 +25,27 @@
 
 .counter{
   float: right;
+}
+
+.new-tweet .message{
+  display: block;
+  margin: 0.5em;
+}
+
+.new-tweet .message.error{
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+
+.new-tweet .message.warning{
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+}
+
+.new-tweet .message.success{
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
 }
