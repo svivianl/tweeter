@@ -72,7 +72,6 @@ $(document).ready(() => {
     tweets.forEach(tweetData => {
       let $tweet = createTweetElement(tweetData);
       $('#tweets-container').append($tweet);
-      // newTweets.push($tweet.serialize());
     });
 
     // to add it to the page so we can make sure it's got all the right elements, classes, etc.
@@ -91,7 +90,6 @@ $(document).ready(() => {
 ------------------------------------------------------------------------------------*/
   $('.new-tweet .counter').text(charCount);
 
-  // renderTweets(data);
   loadTweets();
 
 /*------------------------------------------------------------------------------------
@@ -150,8 +148,6 @@ $(document).ready(() => {
       .done(function(newTweet){
 
         if(newTweet){
-          // $('tweets-container').empty();
-          // loadTweets();
 
           let $tweet = createTweetElement(newTweet);
           $('#tweets-container').prepend($tweet);
