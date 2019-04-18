@@ -7,13 +7,13 @@ This repository is the starter code for the project: Students will fork and clon
 ## Final Product
 
 #### Main Page
-![Image of Main Page](.public/images/main.png)
+![Image of Main Page](./public/images/main.png)
 
 #### Create New Tweet
-![Image of Create New Tweet](.public/images/new-tweet.png)
+![Image of Create New Tweet](./public/images/new-tweet.png)
 
 #### New Tweet Created
-![Image of New Tweet Created](.public/images/new-tweet-created.png)
+![Image of New Tweet Created](./public/images/new-tweet-created.png)
 
 ## Dependencies
 
