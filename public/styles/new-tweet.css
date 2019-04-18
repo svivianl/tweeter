@@ -32,28 +32,29 @@
   margin: 0.5em;
 }
 
+.message.error,
+.message.warning,
+.message.success {
+  border-radius: 8px;
+  padding: 0.5em;
+}
+
 .message.error {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
-  border-radius: 8px;
-  padding: 0.5em;
 }
 
 .message.warning {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
-  border-radius: 8px;
-  padding: 0.5em;
 }
 
 .message.success {
   color: #3c763d;
   background-color: #dff0d8;
   border-color: #d6e9c6;
-  border-radius: 8px;
-  padding: 0.5em;
 }
 
 /*# sourceMappingURL=new-tweet.css.map */
