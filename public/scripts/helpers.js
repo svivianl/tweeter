@@ -25,9 +25,9 @@ const setMessage = (element, message, type) => {
   let messageClass = 'error';
 
   switch ( type ) {
-    // case 'E':
-
-    //   break;
+    case 'W':
+      messageClass = 'warning';
+      break;
 
     case 'S':
       messageClass = 'success';
