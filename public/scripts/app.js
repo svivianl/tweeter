@@ -4,8 +4,6 @@
  * Reminder: Use (and do all your DOM work in) jQuery's document ready function
  */
 
-const charCount = '140';
-
 /*************************************************************************************
  DOCUMENT READY
 *************************************************************************************/
@@ -88,46 +86,6 @@ $(document).ready(() => {
       });
   }
 
-  const clearMessage = (element) => {
-    $(element).removeClass('error');
-    $(element).removeClass('warning');
-    $(element).removeClass('success');
-    $(element).text('');
-    $(element).addClass('message');
-
-    if($(element).css('Display') === 'block'){
-      $(element).slideToggle();
-    }
-
-  }
-
-  const setMessage = (element, message, type) => {
-    // clearMessage(element);
-
-    let messageClass = 'error';
-
-    switch ( type ) {
-      // case 'E':
-
-      //   break;
-
-      case 'S':
-        messageClass = 'success';
-        break;
-
-      default:
-
-    }
-
-    $(element).addClass(messageClass);
-    $(element).text(message);
-
-    if($(element).css('Display') === 'none'){
-      $(element).slideToggle();
-    }
-
-  }
-
 /*------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------*/
@@ -189,21 +147,22 @@ $(document).ready(() => {
     }else{
 
       $.post('/tweets', usrInput)
-      // $.post('/tweets',{text: usrInput})
       .done(function(newTweet){
-        // console.log('done');
 
         if(newTweet){
+          // $('tweets-container').empty();
+          // loadTweets();
+
           let $tweet = createTweetElement(newTweet);
           $('#tweets-container').prepend($tweet);
-      // debugger;
           $('.new-tweet textarea').val('');
           $('.new-tweet .counter').text(charCount);
           clearMessage('.new-tweet div');
          }
       })
       .fail(function(err){
-        console.log(err);
+        const { error, message } = XHR.responseJSON;
+        setMessage('.new-tweet div', message, 'E');
       });
     }
   });

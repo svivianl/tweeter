@@ -4,8 +4,8 @@
 // const charCount = '140';
 
 $(document).ready(function() {
-  // const countValue = charCount;
-  const countValue = Number($('.new-tweet .counter').text());
+  const countValue = charCount;
+  // const countValue = Number($('.new-tweet .counter').text());
 
   $('.new-tweet textarea').on('input', function(e){
 
