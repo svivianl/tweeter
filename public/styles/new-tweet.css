@@ -1,4 +1,4 @@
-.new-tweet{
+.new-tweet {
   border: solid 1px;
   border-radius: 10px;
   background-color: #eee;
@@ -8,31 +8,31 @@
   display: none;
 }
 
-.new-tweet input{
+.new-tweet input {
   cursor: pointer;
 }
 
-.container h2{
+.container h2 {
   border-bottom: solid;
 }
 
-.container textarea{
+.container textarea {
   width: 100%;
   height: 80px;
   padding: 4px;
   resize: none;
 }
 
-.counter{
+.counter {
   float: right;
 }
 
-.message{
+.message {
   display: none;
   margin: 0.5em;
 }
 
-.message.error{
+.message.error {
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
@@ -40,7 +40,7 @@
   padding: 0.5em;
 }
 
-.message.warning{
+.message.warning {
   color: #8a6d3b;
   background-color: #fcf8e3;
   border-color: #faebcc;
@@ -48,10 +48,12 @@
   padding: 0.5em;
 }
 
-.message.success{
+.message.success {
   color: #3c763d;
   background-color: #dff0d8;
   border-color: #d6e9c6;
   border-radius: 8px;
   padding: 0.5em;
 }
+
+/*# sourceMappingURL=new-tweet.css.map */

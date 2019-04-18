@@ -1,4 +1,4 @@
-nav{
+nav {
   /*position: fixed;
   top: 0;*/
   height: 80px;
@@ -9,23 +9,23 @@ nav{
   position: fixed;
   /*margin-top: 100px;*/
   z-index: 1;
-    /*position: absolute;*/
+  /*position: absolute;*/
 }
 
-#nav-bar .logo{
+#nav-bar .logo {
   width: 80px;
   height: 80px;
   float: left;
 }
 
-#nav-bar .header{
+#nav-bar .header {
   float: left;
   font-size: 2em;
   padding-left: 10px;
   line-height: 2.5;
 }
 
-.btn-nav{
+.btn-nav {
   float: right;
   margin: 0.3em 0;
   border: solid 1px;
@@ -35,30 +35,32 @@ nav{
   padding-right: 0.5em;
 }
 
-.btn-nav:hover{
+.btn-nav:hover {
   cursor: pointer;
 }
 
-.btn-nav-uncliked{
+.btn-nav-uncliked {
   background-color: white;
   color: black;
 }
 
-.btn-nav-uncliked:hover{
+.btn-nav-uncliked:hover {
   background-color: #e8fdff;
   color: #00a087;
 }
 
-.btn-nav-cliked{
+.btn-nav-cliked {
   background-color: #e8fdff;
   color: #00a087;
 }
 
-.btn-nav-cliked:hover{
+.btn-nav-cliked:hover {
   background-color: white;
   color: black;
 }
 
-.btn-nav i{
+.btn-nav i {
   margin: 0.5em;
 }
+
+/*# sourceMappingURL=nav.css.map */

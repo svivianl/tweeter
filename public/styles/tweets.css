@@ -1,26 +1,26 @@
-#tweets-container{
+#tweets-container {
   margin: 2em;
 }
 
-.tweet-article{
+.tweet-article {
   border: solid 1px;
   border-radius: 8px;
   margin: 1em 0;
   /*padding: 2em;*/
 }
 
-.tweet-article header{
+.tweet-article header {
   height: 80px;
   background-color: #eee;
   border-radius: 8px;
   opacity: 0.6;
 }
 
-.tweet-article strong{
+.tweet-article strong {
   font-size: 1.5em;
 }
 
-.tweet-article img{
+.tweet-article img {
   width: 60px;
   height: 60px;
   margin: 0.5em;
@@ -28,51 +28,52 @@
   border-radius: 8px;
 }
 
-.tweet-article label{
+.tweet-article label {
   line-height: 2.5;
 }
 
-.tweet-article main{
+.tweet-article main {
   width: auto;
   padding: 0.5em;
 }
 
-.tweet-article p{
+.tweet-article p {
   width: 100%;
   word-break: break-word;
 }
 
-.tweet-article .tag{
+.tweet-article .tag {
   float: right;
   margin-right: 0.5em;
 }
 
-.tweet-article footer{
+.tweet-article footer {
   border-top: solid 1px;
   padding: 0.5em;
 }
 
-.tweet-article footer i{
+.tweet-article footer i {
   float: right;
   line-height: 2.5;
   margin: 0 0.5em;
 }
 
-.tweet-article:hover{
+.tweet-article:hover {
   opacity: 1;
   border: solid 3px;
 }
 
-.tweet-article:hover header{
+.tweet-article:hover header {
   opacity: 1;
 }
 
-
-.tweet-article footer div.icons{
+.tweet-article footer div.icons {
   float: right;
   display: none;
 }
 
-.tweet-article:hover div.icons{
+.tweet-article:hover div.icons {
   display: block;
 }
+
+/*# sourceMappingURL=1-sass-tweets.css.map */
