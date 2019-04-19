@@ -1,38 +1,34 @@
 nav {
-  height: 5rem;
+  height: 80px;
   width: 100%;
   background-color: #00a087;
   color: #e8fdff;
-  padding: 0 2rem;
-  display: flex;
-  align-items: center;
-  /*flex-direction: row;*/
+  padding: 0 2em;
+  position: fixed;
+  z-index: 1;
 }
 
 #nav-bar .logo {
-  width: 5rem;
-  height: 5rem;
+  width: 80px;
+  height: 80px;
+  /*float: left;*/
 }
 
 #nav-bar .header {
-  font-size: 2rem;
-  padding-left: 1rem;
-  width: 75%;
-}
-
-#nav-bar .header label{
-  width: 75%;
+  /*float: left;*/
+  font-size: 2em;
+  padding-left: 10px;
+  line-height: 2.5;
 }
 
 .btn-nav {
-  margin: 0.3rem 0;
-  border: solid 0.1rem;
-  border-radius: 0.5rem;
-  height: 4rem;
-  font-size: 1.5rem;
-  padding-right: 0.5rem;
-  display: flex;
-  align-items: center;
+  /*float: right;*/
+  margin: 0.3em 0;
+  border: solid 1px;
+  border-radius: 8px;
+  height: 60px;
+  font-size: 1.5em;
+  padding-right: 0.5em;
 }
 
 .btn-nav:hover {
@@ -60,7 +56,7 @@ nav {
 }
 
 .btn-nav i {
-  margin: 0.5rem;
+  margin: 0.5em;
 }
 
-/*# sourcremappingURL=nav.css.map */
+/*# sourceMappingURL=nav.css.map */
