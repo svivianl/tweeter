@@ -1,15 +1,11 @@
 nav {
-  /*position: fixed;
-  top: 0;*/
   height: 80px;
   width: 100%;
   background-color: #00a087;
   color: #e8fdff;
   padding: 0 2em;
   position: fixed;
-  /*margin-top: 100px;*/
   z-index: 1;
-  /*position: absolute;*/
 }
 
 #nav-bar .logo {

@@ -14,42 +14,42 @@ $(document).ready(() => {
 ------------------------------------------------------------------------------------*/
 
   const createTweetElement = (data) => {
-    let $article = $('<article></article>');
+    const $article = $('<article></article>');
     $article.addClass("tweet-article");
 
     // build header
-    let $header = $('<header></header>');
-    let $avatar = $(`<img>`);
+    const $header = $('<header></header>');
+    const $avatar = $(`<img>`);
     $avatar.attr("src",data.user.avatars.small);
     $header.append($avatar);
-    let $nameLabel = $('<label></label>');
-    let $nameStrong = $(`<strong></strong>`);
+    const $nameLabel = $('<label></label>');
+    const $nameStrong = $(`<strong></strong>`);
     $nameStrong.text(data.user.name);
     $nameLabel.append($nameStrong);
     $header.append($nameLabel);
-    let $handleLabel = $(`<label></label>`);
+    const $handleLabel = $(`<label></label>`);
     $handleLabel.addClass('tag');
     $handleLabel.text(data.user.handle);
     $header.append($handleLabel);
 
     // build main
-    let $main = $('<main></main>');
-    let $p = $('<p></p>');
+    const $main = $('<main></main>');
+    const $p = $('<p></p>');
     $p.text(data.content.text);
     $main.append($p);
 
     // build footer
-    let $footer = $('<footer></footer>');
-    let $label = $(`<label></label>`);
+    const $footer = $('<footer></footer>');
+    const $label = $(`<label></label>`);
     $label.text(moment(Date.now()).from(data.created_at).replace('in', '') + ' ago');
     $footer.append($label);
-    let $div = $('<div></div>');
+    const $div = $('<div></div>');
     $div.addClass("icons");
-    let $heart = $('<i></i>');
+    const $heart = $('<i></i>');
     $heart.addClass("fas fa-heart");
-    let $retweet = $('<i></i>');
+    const $retweet = $('<i></i>');
     $retweet.addClass("fas fa-retweet");
-    let $flag = $('<i></i>');
+    const $flag = $('<i></i>');
     $flag.addClass("fas fa-flag");
     $div.append($heart);
     $div.append($retweet);

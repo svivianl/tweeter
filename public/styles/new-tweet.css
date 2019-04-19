@@ -57,4 +57,12 @@
   border-color: #d6e9c6;
 }
 
+.counter.counter-default{
+  color: '#244751';
+}
+
+.counter.counter-error{
+  color: red;
+}
+
 /*# sourceMappingURL=new-tweet.css.map */

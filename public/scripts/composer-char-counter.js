@@ -10,15 +10,22 @@ $(document).ready(function() {
     e.stopPropagation();
 
     const newValue = countValue - this.textLength;
-    let colour = '#244751';
+    const counterClass = {
+      default: 'counter-default',
+      error: 'counter-error'
+    };
+    let removeClass = counterClass.default;
+    let addClass = counterClass.error;
 
     $('.counter', $(this).parent()).text(newValue);
 
-    if(newValue < 0){
-      colour = 'red';
+    if(newValue > 0){
+      removeClass = counterClass.error;
+      addClass = counterClass.default;
     }
 
-    $('.counter', $(this).parent()).css('color', colour);
+    $('.counter', $(this).parent()).removeClass(removeClass);
+    $('.counter', $(this).parent()).addClass(addClass);
   });
 
 });
