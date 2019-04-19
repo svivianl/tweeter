@@ -1,15 +1,16 @@
 #tweets-container {
-  margin: 2em;
+  margin: 2rem;
 }
 
 .tweet-article {
   border: solid 0.1rem;
   border-radius: 0.5rem;
-  margin: 1em 0;
+  margin: 1rem 0;
 }
 
 .tweet-article header {
-  height: 5rem;
+  width: 5rem;
+  /*height: 5rem;*/
   background-color: #eee;
   border-radius: 0.5rem;
   opacity: 0.6;
@@ -30,13 +31,16 @@
   border-radius: 0.5rem;
 }
 
+.tweet-article label{
+  flex-basis: 70%;
+}
 /*.tweet-article label {
   line-height: 2.5;
 }*/
 
 .tweet-article main {
   width: auto;
-  padding: 0.5em;
+  padding: 0.5rem;
 }
 
 .tweet-article p {
@@ -46,12 +50,12 @@
 
 .tweet-article .tag {
   /*float: right;*/
-  margin-right: 0.5em;
+  margin-right: 0.5rem;
 }
 
 .tweet-article footer {
   border-top: solid 0.1rem;
-  padding: 0.5em;
+  padding: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -60,12 +64,12 @@
 .tweet-article footer i {
   /*float: right;*/
   /*line-height: 2.5;*/
-  margin: 0 0.5em;
+  margin: 0 0.5rem;
 }
 
 .tweet-article:hover {
   opacity: 1;
-  border: solid 3px;
+  border: solid 0.3rem;
 }
 
 .tweet-article:hover header {

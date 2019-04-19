@@ -23,9 +23,11 @@
   resize: none;
 }
 
-/*.counter {
-  float: right;
-}*/
+.new-tweet form .footer{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
 
 .message {
   display: none;
