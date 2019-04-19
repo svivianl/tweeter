@@ -6,42 +6,34 @@ const charCount = '140';
 /*------------------------------------------------------------------------------------
   FUNCTIONS
 ------------------------------------------------------------------------------------*/
-const clearMessage = (element) => {
-  $(element).removeClass('error');
-  $(element).removeClass('warning');
-  $(element).removeClass('success');
-  $(element).text('');
-  $(element).addClass('message');
+const messages = {
+  error: 'error',
+  warning: 'warining',
+  success: 'success',
+  class: 'message',
+  types: [this.error,this.warining,this.success],
 
-  if($(element).css('Display') === 'block'){
-    $(element).slideToggle();
+  clearMessage: function(element) {
+    this.types.forEach( type => $(element).removeClass( type ));
+    $(element).text('');
+    $(element).addClass(this.class);
+
+    if($(element).css('Display') === 'block'){
+      $(element).slideToggle();
+    }
+  },
+
+  setMessage: function(element, message, type) {
+
+    let messageClass = this.types[type];
+
+    if( !messageClass ){ messageClass = 'error'; }
+
+    $(element).addClass(messageClass);
+    $(element).text(message);
+
+    if($(element).css('Display') === 'none'){
+      $(element).slideToggle();
+    }
   }
-
-}
-
-const setMessage = (element, message, type) => {
-  // clearMessage(element);
-
-  let messageClass = 'error';
-
-  switch ( type ) {
-    case 'W':
-      messageClass = 'warning';
-      break;
-
-    case 'S':
-      messageClass = 'success';
-      break;
-
-    default:
-
-  }
-
-  $(element).addClass(messageClass);
-  $(element).text(message);
-
-  if($(element).css('Display') === 'none'){
-    $(element).slideToggle();
-  }
-
 }

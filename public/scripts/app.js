@@ -113,7 +113,7 @@ $(document).ready(() => {
       add = unclicked;
 
     }else{
-      clearMessage('.new-tweet div');
+      messages.clearMessage('.new-tweet div');
     }
 
     $('.new-tweet textarea').focus();
@@ -141,7 +141,7 @@ $(document).ready(() => {
     }
 
     if(message){
-      setMessage('.new-tweet div', message, 'E');
+      messages.setMessage('.new-tweet div', message, messages.error);
     }else{
 
       $.post('/tweets', usrInput)
@@ -153,12 +153,12 @@ $(document).ready(() => {
           $('#tweets-container').prepend($tweet);
           $('.new-tweet textarea').val('');
           $('.new-tweet .counter').text(charCount);
-          clearMessage('.new-tweet div');
+          messages.clearMessage('.new-tweet div');
          }
       })
       .fail(function(err){
         const { error, message } = XHR.responseJSON;
-        setMessage('.new-tweet div', message, 'E');
+        messages.setMessage('.new-tweet div', message, messages.error);
       });
     }
   });
