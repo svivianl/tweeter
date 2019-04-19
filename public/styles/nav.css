@@ -4,6 +4,7 @@ nav {
   background-color: #00a087;
   color: #e8fdff;
   padding: 0 2rem;
+  /*position: fixed;*/
   display: flex;
   align-items: center;
   /*flex-direction: row;*/

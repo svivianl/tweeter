@@ -19,12 +19,13 @@ body {
   color: #244751;
   background-color: #eee;
   font-family: 'Roboto Condensed', sans-serif;
-  height: 100vh;
+  /*height: 100vh;*/
   width: 100vw;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  /*flex-wrap: wrap;*/
   /*flex-flow: column wrap;*/
-  /*align-items: center;*/
+  align-items: center;
 }
 
 main{
