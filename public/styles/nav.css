@@ -45,7 +45,11 @@ nav {
   align-items: center;
 }
 
-.btn-nav:hover {
+.btn-nav,
+.btn-login-register,
+.btn-loggedin,
+.btn-cancel,
+button:hover {
   cursor: pointer;
 }
 

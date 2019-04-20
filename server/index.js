@@ -8,7 +8,7 @@ const bodyParser    = require("body-parser");
 const app           = express();
 const MongoClient   = require("mongodb").MongoClient;
 const MONGODB_URI   = "mongodb://localhost:27017/tweeter";
-const bcrypt        = require('bcrypt');
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -40,7 +40,7 @@ MongoClient.connect(MONGODB_URI, (err, db) => {
 
 // Mount the tweets routes at the "/tweets" path prefix:
   app.use("/tweets", tweetsRoutes);
-  app.use('/', usersRouters);
+  app.use('/', usersRoutes);
 });
 
 app.listen(PORT, () => {
