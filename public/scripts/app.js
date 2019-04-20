@@ -86,26 +86,40 @@ $(document).ready(() => {
   }
 
   const clearPopupInput = function(node){
-    // clear all the input data
-    $('input', node.parent()).val('');
-
     // finds the parent with the id of the popup to toggle
     let $parent = node.parent().parent().parent();
     if(node.prop("tagName") === 'P'){
       $parent = $parent.parent();
     }
 
-    $(`#${$parent.attr('id')}`).toggle('popup-display');
+    const parentId = $parent.attr('id');
+
+    // clear all the input data
+    $(`#${parentId} :input`).val('');
+
+    $(`#${parentId}`).toggle('popup-display');
+
+    if( $(`#${parentId} .message`).css('display', 'block')){
+      messages.clearMessage(`#${parentId} .message`);
+    }
   }
 
   const getPopupInput = function(node) {
     const user = {};
-
     const popupId = node.parent().parent().parent().attr('id');
+
     $(`#${popupId} :input`).each(function() {
       const inputName = $(this).attr('name');
+
       if( inputName && inputName.indexOf('user[') === 0){
-        user[inputName.substr(5,inputName.length - 6)] = $(this).val();
+        const newInputName = inputName.substr(5,inputName.length - 6);
+
+        if(newInputName.indexOf('Avatar') !== -1){
+          if(!user.hasOwnProperty('avatar')){ user['avatar'] = {}; }
+          user.avatar[newInputName.substr(0, newInputName.indexOf('A'))] = $(this).val();
+        }else{
+          user[newInputName] = $(this).val();
+        }
       }
     });
 
@@ -113,8 +127,8 @@ $(document).ready(() => {
   }
 
   const setUserNavbar = (user) => {
-    $('#nav-bar img').src(user.avatar.small);
-    $('#nav-bar .habdle').text(`@${user.handle}`);
+    $('#nav-bar .btn-loggedin img').attr('src', user.avatar.small);
+    $('#nav-bar .handle').text(`@${user.handle}`);
     // $('.btn-loggedin.user img').src(user.avatar.small);
     // $('.btn-loggedin.user .habdle').text(`@${user.handle}`);
   }
@@ -122,8 +136,20 @@ $(document).ready(() => {
   const navbarButtonToggle = () => {
     $('.btn-login-register').toggle('popup-display');
     $('.btn-loggedin').toggle('popup-display');
-  }
+    // $('#loggedin-options').toggle('display');
+    // $('.btn-loggedin #loggedin-options').toggle('display');
 
+    //
+    let addClass = 'loggedin-width';
+    let removeClass = 'loggedout-width';
+
+    if($('.btn-login-register').css('display', 'block')){
+      removeClass = 'loggedin-width';
+      addClass = 'loggedout-width';
+    }
+    $('#nav-bar .header').removeClass(removeClass);
+    $('#nav-bar .header').addClass(addClass);
+  }
 /*------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------*/
@@ -198,7 +224,7 @@ $(document).ready(() => {
       })
       .fail((XHR) =>{
         const { error, message } = XHR.responseJSON;
-        messages.setMessage('.new-tweet .message', message, messages.error);
+        messages.setMessage('.new-tweet .message', error, messages.error);
       });
     }
   });
@@ -237,13 +263,13 @@ $(document).ready(() => {
         })
         .fail((XHR) =>{
           const { error, message } = XHR.responseJSON;
-          messages.setMessage('.popup_register .message', message, messages.error);
+          messages.setMessage('#popup_register .message', error, messages.error);
         });
 
     })
     .fail((XHR) =>{
       const { error, message } = XHR.responseJSON;
-      messages.setMessage('.popup_register .message', message, messages.error);
+      messages.setMessage('#popup_register .message', error, messages.error);
     });
   });
 
@@ -262,7 +288,7 @@ $(document).ready(() => {
     })
     .fail((XHR) =>{
       const { error, message } = XHR.responseJSON;
-      messages.setMessage('.popup_login .message', message, messages.error);
+      messages.setMessage('#popup_login .message', error, messages.error);
     });
   });
 
@@ -273,11 +299,11 @@ $(document).ready(() => {
     $.post('/logout')
     .done(function(){
       navbarButtonToggle();
-    })
-    .fail((XHR) =>{
-      const { error, message } = XHR.responseJSON;
-      messages.setMessage('.popup_login .message', message, messages.error);
     });
+  });
+
+  $('.btn-loggedin img').on('click', function(e){
+    $('.btn-loggedin #loggedin-options').toggle('display');
   });
 });
 

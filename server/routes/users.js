@@ -18,72 +18,40 @@ const attributes    = {
     // handle: 'Username',
     // password: 'Password',
     passwordConfirm: 'Confirm Password',
-    smallAvatar: 'Small avatar',
-    regularAvatar: 'Regular avatar',
-    largeAvatar: 'Large avatar'
+    avatar: {
+      small: 'Small avatar',
+      regular: 'Regular avatar',
+      large: 'Large avatar'
+    }
+  }
+}
+
+const isEmpty = (obj, key, attributes) => {
+  if( (!obj.hasOwnProperty(key)) || (!obj[key]) || obj[key].replace(/\s/g, '') === ''){
+    return `"${attributes[key]}" is empty`;
   }
 }
 
 // check if the inputs are empty
 const checkMandatoryInputs = (attributes, input) => {
+
   for(let key in attributes){
-    if( (!input.hasOwnProperty(key)) || (!input[key]) || input[key].replace(/\s/g, '') === ''){
-      return `"${attributes[key]}" is empty`;
+    let message;
+
+    if(typeof input  === 'object'){
+      for(let innerKey in input[key]){
+        message = isEmpty(input[key], innerKey, attributes[key]);
+        if( message ){
+          return message;
+        }
+      }
+    }else{
+      message = isEmpty(input, key, attributes);
+      if( message ){
+        return message;
+      }
     }
   }
-}
-
-const createUser = (err, userFound) => {
-  console.log('in data helpers... after calling db.... callback');
-  console.log('error ', err);
-  console.log('user found ', userFound);
-  console.log('body ', req.body);
-  try{
-  if (err) {
-    console.log('before saving.......');
-    const {
-      firstName,
-      lastName,
-      password,
-      handle,
-      smallAvatar,
-      regularAvatar,
-      largeAvatar
-    } = req.body.user;
-
-    const user = {
-      firstName,
-      lastName,
-      password: bcrypt.hashSync(password, 10),
-      handle,
-      smallAvatar,
-      regularAvatar,
-      largeAvatar
-    };
-
-    DataHelpers.saveUser(user, (err, newUser) => {
-      console.log('saved.......');
-      if (err) {
-        res.status(500).json({ error: err.message });
-      } else {
-        console.log('created user ', newUser);
-        req.session.user_id = newUser.id;
-        res.status(201).send(newUser);
-        res.redirect('/login');
-        // res.status(201).send();
-      }
-    });
-
-  } else {
-    res.status(400).json({ error: 'user/e-mail already exists' });
-  }
-}
-catch(e){
-  console.log('e ', e);
-  console.log('error ', err);
-  console.log('user found ', userFound);
-  console.log('body ', req.body);
-}
 }
 
 module.exports = function(DataHelpers) {
@@ -148,19 +116,15 @@ module.exports = function(DataHelpers) {
           lastName,
           password,
           handle,
-          smallAvatar,
-          regularAvatar,
-          largeAvatar
+          avatar
         } = req.body.user;
 
         const user = {
           firstName,
           lastName,
-          password: bcrypt.hashSync(password, 10),
+          password: bcrypt.hashSync(password, 20),
           handle,
-          smallAvatar,
-          regularAvatar,
-          largeAvatar
+          avatar
         };
 
         DataHelpers.saveUser(user, (err, newUser) => {

@@ -18,7 +18,14 @@ nav {
 #nav-bar .header {
   font-size: 2rem;
   padding-left: 1rem;
+}
+
+#nav-bar .header.loggedin-width{
   width: 80%;
+}
+
+#nav-bar .header.loggedout-width{
+  width: 70%;
 }
 
 #nav-bar .header label{
@@ -34,6 +41,11 @@ nav {
   display: none;
 }
 
+.btn-loggedin ul {
+    list-style: none;
+    padding: 0;
+}
+
 .btn-nav {
   margin: 0.3rem 0;
   border: solid 0.1rem;
@@ -45,12 +57,34 @@ nav {
   align-items: center;*/
 }
 
+.btn-loggedin img{
+  /*display: none;*/
+  margin: 0.3rem;
+  border: solid 0.1rem;
+  border-radius: 0.5rem;
+}
+
+.btn-loggedin ul{
+  display: none;
+}
+
 .btn-nav,
 .btn-login-register,
 .btn-loggedin,
 .btn-cancel,
+.btn-loggedin img,
 button:hover {
   cursor: pointer;
+}
+
+#loggedin-options{
+  position: absolute;
+  top: 100px;
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  background-color: #00a087;
+  padding: 0.1rem;
+  display:none;
 }
 
 .btn-nav-uncliked {
@@ -80,5 +114,17 @@ button:hover {
 .popup-display{
   display: block;
   z-index: 1;
+}
+
+.display{
+  display: block;
+}
+
+@media (max-width: 976px){
+
+  #nav-bar .header.loggedin-width{
+    width: 60%;
+  }
+
 }
 /*# sourcremappingURL=nav.css.map */

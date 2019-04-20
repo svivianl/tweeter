@@ -32,18 +32,23 @@
     <!-- Top nav bar (fixed) -->
     <nav id="nav-bar">
       <img class="logo" src="/images/bird.png">
-      <span class="header">Tweeter</span>
+      <span class="header loggedout-width">Tweeter</span>
       <a class="btn-login-register" id='btn-login'>Login</a>
       <a class="btn-login-register" id='btn-register'>Register</a>
 
-      <img alt="avatar">
-      <span class="handle"></span>
-      <a class='btn-loggedin' id='btn-logout'>Logout</a>
-      <!-- <div class='btn-loggedin user'>
+      <!-- dropdown -->
+      <div class='btn-loggedin'>
         <img alt="avatar">
-        <span class="handle"></span>
-        <a class='btn-loggedin' id='btn-logout'>Logout</a>
-      </div> -->
+        <div id='loggedin-options'>
+          <ul>
+            <li>
+              <span class="handle"></span></li>
+            <li>
+              <a id='btn-logout'>Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
       <a class='btn-loggedin btn-nav btn-nav-uncliked' id='btn-compose'><i class="far fa-edit"></i>Compose</a>
     </nav>
 
