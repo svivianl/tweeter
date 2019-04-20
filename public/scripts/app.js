@@ -85,13 +85,33 @@ $(document).ready(() => {
       });
   }
 
-  const clearPopupInput = (node) => {
+  const clearPopupInput = function(node){
     // clear all the input data
-    $('input', $(node).parent()).val('');
+    $('input', node.parent()).val('');
 
     // finds the parent with the id of the popup to toggle
-    $(`#${$(node).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
+    const $parent = node.parent().parent().parent();
+    if(node.prop("tagName") === 'P'){
+      $parent = $parent.parent();
+    }
+
+    $(`#${$parent.attr('id')}`).toggle('popup-display');
   }
+
+  const getPopupInput = function(node) {
+    const user = {};
+
+    const popupId = node.parent().parent().parent().attr('id');
+    $(`#${popupId} :input`).each(function() {
+      const inputName = $(this).attr('name');
+      if( inputName && inputName.indexOf('user[') === 0){
+        user[inputName.substr(5,inputName.length - 6)] = $(this).val();
+      }
+    });
+
+    return user;
+  }
+
 /*------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------*/
@@ -180,34 +200,51 @@ $(document).ready(() => {
   });
 
   $('.btn-cancel').on('click', function(e) {
-    clearPopupInput(this);
+    clearPopupInput($(this));
     // // clear all the input data
     // $('input', $(this).parent()).val('');
     // // finds the parent with the id of the popup to toggle
     // $(`#${$(this).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
   });
 
-  // submit tweet
+  // submit register
   $('#popup_register form').submit(function(e){
     e.preventDefault();
 
-    const user = {};
-
-    const popupId = $(this).parent().parent().parent().attr('id');
-    $(`#${popupId} :input`).each(function() {
-      const inputName = $(this).attr('name');
-      if( inputName && inputName.indexOf('user[') === 0){
-        user[inputName.substr(5,inputName.length - 6)] = $(this).val();
-      }
-    });
+    const $this = $(this);
+    const user = getPopupInput($this);
 
     $.post('/register', { user })
     .done(function(newUser){
-      clearPopupInput(this);
+      clearPopupInput($this);
+
+      $.post('/login', { user })
+        .fail((XHR) =>{
+          const { error, message } = XHR.responseJSON;
+          messages.setMessage('.popup_register .message', message, messages.error);
+        });
+
     })
     .fail((XHR) =>{
       const { error, message } = XHR.responseJSON;
       messages.setMessage('.popup_register .message', message, messages.error);
+    });
+  });
+
+  // submit login
+  $('#popup_login form').submit(function(e){
+    e.preventDefault();
+
+    const $this = $(this);
+    const user = getPopupInput($this);
+
+    $.post('/login', { user })
+    .done(function(){
+      clearPopupInput($this);
+    })
+    .fail((XHR) =>{
+      const { error, message } = XHR.responseJSON;
+      messages.setMessage('.popup_login .message', message, messages.error);
     });
   });
 });

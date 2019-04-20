@@ -88,7 +88,7 @@ catch(e){
 
 module.exports = function(DataHelpers) {
 
-  usersRoutes.get("/login", function(req, res) {
+  usersRoutes.post("/login", function(req, res) {
     if (!req.body.user) {
       res.status(400).json({ error: 'invalid request: no data in POST body'});
       return;
@@ -100,18 +100,23 @@ module.exports = function(DataHelpers) {
       return res.status(400).json({ error });
     }
 
-    const {handle} = req.body.user;
-
+    const {handle, password} = req.body.user;
+    console.log('login......');
+    DataHelpers.getUser({handle}, (err, user) => {
+      console.log('login...... callback.... ');
     // DataHelpers.getUser({handle}, {password: 1, handle: 1}, (err, user) => {
-    DataHelpers.getUser({handle}, {password: 1, handle: 1, 'avatar.small': 1}, (err, user) => {
+    // DataHelpers.getUser({handle}, {password: 1, handle: 1, 'avatar.small': 1}, (err, user) => {
       if (err) {
         res.status(403).send(`User not found`);
 
       } else {
+        console.log('user password ..... ', user.password);
+        console.log('password ..... ', password);
         if(bcrypt.compareSync( password, user.password)){
           res.json(user);
           req.session.user_id = user.id;
-          res.redirect('/');
+          console.log('login...... ok... ');
+          // res.redirect('/');
         }else{
           res.status(403).send(`Password doesn't match`);
         }
@@ -177,7 +182,7 @@ module.exports = function(DataHelpers) {
             console.log('created user ', newUser);
             req.session.user_id = newUser.id;
             res.status(201).send(newUser);
-            res.redirect('/login');
+            // res.redirect('/login');
             // res.status(201).send();
           }
         });
