@@ -101,21 +101,16 @@ module.exports = function(DataHelpers) {
     }
 
     const {handle, password} = req.body.user;
-    console.log('login......');
     DataHelpers.getUser({handle}, (err, user) => {
-      console.log('login...... callback.... ');
     // DataHelpers.getUser({handle}, {password: 1, handle: 1}, (err, user) => {
     // DataHelpers.getUser({handle}, {password: 1, handle: 1, 'avatar.small': 1}, (err, user) => {
       if (err) {
         res.status(403).send(`User not found`);
 
       } else {
-        console.log('user password ..... ', user.password);
-        console.log('password ..... ', password);
         if(bcrypt.compareSync( password, user.password)){
           res.json(user);
           req.session.user_id = user.id;
-          console.log('login...... ok... ');
           // res.redirect('/');
         }else{
           res.status(403).send(`Password doesn't match`);
@@ -145,15 +140,9 @@ module.exports = function(DataHelpers) {
     }
 
     const {email, handle} = req.body.user;
-    console.log('before saving 1.......');
     // DataHelpers.getUser({{email, handle}, {password: 1}}, createUser);
     DataHelpers.getUser({email, handle}, (err, userFound) => {
-      console.log('in data helpers... after calling db.... callback');
-      console.log('error ', err);
-      console.log('user found ', userFound);
-      console.log('body ', req.body);
       if (err || (!userFound)) {
-        console.log('before saving.......');
         const {
           firstName,
           lastName,
@@ -175,7 +164,6 @@ module.exports = function(DataHelpers) {
         };
 
         DataHelpers.saveUser(user, (err, newUser) => {
-          console.log('saved.......');
           if (err) {
             res.status(500).json({ error: err.message });
           } else {

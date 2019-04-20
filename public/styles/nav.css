@@ -18,7 +18,7 @@ nav {
 #nav-bar .header {
   font-size: 2rem;
   padding-left: 1rem;
-  width: 75%;
+  width: 80%;
 }
 
 #nav-bar .header label{
@@ -41,8 +41,8 @@ nav {
   height: 4rem;
   font-size: 1.5rem;
   padding-right: 0.5rem;
-  display: flex;
-  align-items: center;
+  /*display: flex;
+  align-items: center;*/
 }
 
 .btn-nav,

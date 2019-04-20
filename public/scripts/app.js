@@ -90,7 +90,7 @@ $(document).ready(() => {
     $('input', node.parent()).val('');
 
     // finds the parent with the id of the popup to toggle
-    const $parent = node.parent().parent().parent();
+    let $parent = node.parent().parent().parent();
     if(node.prop("tagName") === 'P'){
       $parent = $parent.parent();
     }
@@ -110,6 +110,18 @@ $(document).ready(() => {
     });
 
     return user;
+  }
+
+  const setUserNavbar = (user) => {
+    $('#nav-bar img').src(user.avatar.small);
+    $('#nav-bar .habdle').text(`@${user.handle}`);
+    // $('.btn-loggedin.user img').src(user.avatar.small);
+    // $('.btn-loggedin.user .habdle').text(`@${user.handle}`);
+  }
+
+  const navbarButtonToggle = () => {
+    $('.btn-login-register').toggle('popup-display');
+    $('.btn-loggedin').toggle('popup-display');
   }
 
 /*------------------------------------------------------------------------------------
@@ -217,8 +229,12 @@ $(document).ready(() => {
     $.post('/register', { user })
     .done(function(newUser){
       clearPopupInput($this);
+      navbarButtonToggle();
 
       $.post('/login', { user })
+      .done(function(userFound){
+          setUserNavbar(userFound);
+        })
         .fail((XHR) =>{
           const { error, message } = XHR.responseJSON;
           messages.setMessage('.popup_register .message', message, messages.error);
@@ -239,8 +255,24 @@ $(document).ready(() => {
     const user = getPopupInput($this);
 
     $.post('/login', { user })
-    .done(function(){
+    .done(function(userFound){
       clearPopupInput($this);
+      navbarButtonToggle();
+      setUserNavbar(userFound);
+    })
+    .fail((XHR) =>{
+      const { error, message } = XHR.responseJSON;
+      messages.setMessage('.popup_login .message', message, messages.error);
+    });
+  });
+
+  // submit logout
+  $('#btn-logout').on('click', function(e){
+    e.preventDefault();
+
+    $.post('/logout')
+    .done(function(){
+      navbarButtonToggle();
     })
     .fail((XHR) =>{
       const { error, message } = XHR.responseJSON;
