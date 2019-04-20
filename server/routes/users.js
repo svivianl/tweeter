@@ -15,9 +15,11 @@ module.exports = function(DataHelpers) {
 
     DataHelpers.getuser({{email, handle}, {password: 1}, (err, user) => {
       if (err) {
-        res.status(500).json({ error: err.message });
+
+        bcrypt.hashSync(password, 10)
+
       } else {
-        res.json(user);
+        res.status(400).json({ error: 'user already exists' });
       }
     });
   });
@@ -34,17 +36,18 @@ module.exports = function(DataHelpers) {
 
       } else {
 
-
-
-
-        DataHelpers.saveTweet(user, (err, newUser) => {
-          if (err) {
-            res.status(500).json({ error: err.message });
-          } else {
-            res.status(201).send(newUser);
-            // res.status(201).send();
-          }
-        });
+        if(bcrypt.compareSync( password, user.password)){
+          DataHelpers.saveTweet(user, (err, newUser) => {
+            if (err) {
+              res.status(500).json({ error: err.message });
+            } else {
+              res.status(201).send(newUser);
+              // res.status(201).send();
+            }
+          });
+        }else{
+          res.status(403).send(`Password doesn't match`);
+        }
       }
     });
 
