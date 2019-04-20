@@ -25,9 +25,22 @@ module.exports = function makeDataHelpers(db) {
       });
     },
 
+    // Get all tweets in `db`, sorted by newest first
+    getTweet: function(query, callback) {
+      db.collection("tweets").findOne(query, {userId}, (err, tweet) => {
+        if (err) {
+          return callback(err);
+        }
+
+        callback(null, tweet);
+      });
+    },
+
     // Save user
     saveUser: function(newUser, callback)  {
+      console.log('before saving in data helper.......');
       db.collection("users").insertOne(newUser, (err, res) => {
+        console.log('saved.......');
         if (err) {
           return callback(err);
         }
@@ -37,11 +50,13 @@ module.exports = function makeDataHelpers(db) {
 
     // Get user
     getUser: function(query, callback){
-      db.collection("users").findOne(query, (err, user) => {
+      console.log('in data helpers... before calling db....');
+      db.collection("users").find(query).toArray( (err, user) => {
+        console.log('in data helpers... after calling db....');
         if (err) {
           return callback(err);
         }
-        callback(null, user);
+        callback(null, user[0]);
       });
     },
 

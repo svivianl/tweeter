@@ -24,6 +24,8 @@ This repository is the starter code for the project: Students will fork and clon
 - md5
 - moment
 - mongo
+- bycript
+- cookie-session
 
 ## Getting Started
 

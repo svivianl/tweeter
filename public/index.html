@@ -63,8 +63,8 @@
               <input class="form-control" type="email" name='user[email]' placeholder="email" style="width: 300px; margin: 1em">
             </div>
             <div class='form-group mb-2'>
-              <label for="handle">Handle:</label>
-              <input class="form-control" type="text" name='user[handle]' placeholder="handle" style="width: 300px; margin: 1em">
+              <label for="handle">Username:</label>
+              <input class="form-control" type="text" name='user[handle]' placeholder="username" style="width: 300px; margin: 1em">
             </div>
             <div class='form-group mb-2'>
               <label for="password">Password:</label>
@@ -79,14 +79,15 @@
               <input class="form-control" type="text" name="user[smallAvatar]" placeholder="http://" style="width: 300px; margin: 1em">
             </div>
             <div class='form-group mb-2'>
-              <label for="Regularavatar">Regular avatar:</label>
-              <input class="form-control" type="text" name="user[regulAravatar]" placeholder="http://" style="width: 300px; margin: 1em">
+              <label for="regularAvatar">Regular avatar:</label>
+              <input class="form-control" type="text" name="user[regularAvatar]" placeholder="http://" style="width: 300px; margin: 1em">
             </div>
             <div class='form-group mb-2'>
-              <label for="largeAavatar">Large avatar:</label>
+              <label for="largeAvatar">Large avatar:</label>
               <input class="form-control" type="text" name="user[largeAvatar]" placeholder="http://" style="width: 300px; margin: 1em">
             </div>
             <button type="submit">Submit</button>
+            <div class="message"><p></p></div>
           </form>
         </div>
         </div> <!-- end of popupBoxContent -->
@@ -104,18 +105,15 @@
           <hr>
           <form action="/login" method="POST">
             <div class='form-group mb-2'>
-              <label for="email">E-mail:</label>
-              <input class="form-control" type="email" name='user[email]' placeholder="email" style="width: 300px; margin: 1em">
-            </div>
-            <div class='form-group mb-2'>
-              <label for="handle">Handle:</label>
-              <input class="form-control" type="text" name='user[handle]' placeholder="handle" style="width: 300px; margin: 1em">
+              <label for="username">E-mail:</label>
+              <input class="form-control" type="text" name='user[handle]' placeholder="username" style="width: 300px; margin: 1em">
             </div>
             <div class='form-group mb-2'>
               <label for="password">Password:</label>
               <input class="form-control" type="password" name='user[password]' placeholder="password" style="width: 300px; margin: 1em">
             </div>
             <button type="submit">Submit</button>
+            <div class="message"><p></p></div>
           </form>
         </div>
         </div> <!-- end of popupBoxContent -->

@@ -85,6 +85,13 @@ $(document).ready(() => {
       });
   }
 
+  const clearPopupInput = (node) => {
+    // clear all the input data
+    $('input', $(node).parent()).val('');
+
+    // finds the parent with the id of the popup to toggle
+    $(`#${$(node).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
+  }
 /*------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------*/
@@ -157,7 +164,7 @@ $(document).ready(() => {
           messages.clearMessage('.new-tweet .message');
          }
       })
-      .fail(function(err){
+      .fail((XHR) =>{
         const { error, message } = XHR.responseJSON;
         messages.setMessage('.new-tweet .message', message, messages.error);
       });
@@ -173,10 +180,35 @@ $(document).ready(() => {
   });
 
   $('.btn-cancel').on('click', function(e) {
-    // clear all the input data
-    $('input', $(this).parent()).val('');
-    // finds the parent with the id of the popup to toggle
-    $(`#${$(this).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
-  })
+    clearPopupInput(this);
+    // // clear all the input data
+    // $('input', $(this).parent()).val('');
+    // // finds the parent with the id of the popup to toggle
+    // $(`#${$(this).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
+  });
+
+  // submit tweet
+  $('#popup_register form').submit(function(e){
+    e.preventDefault();
+
+    const user = {};
+
+    const popupId = $(this).parent().parent().parent().attr('id');
+    $(`#${popupId} :input`).each(function() {
+      const inputName = $(this).attr('name');
+      if( inputName && inputName.indexOf('user[') === 0){
+        user[inputName.substr(5,inputName.length - 6)] = $(this).val();
+      }
+    });
+
+    $.post('/register', { user })
+    .done(function(newUser){
+      clearPopupInput(this);
+    })
+    .fail((XHR) =>{
+      const { error, message } = XHR.responseJSON;
+      messages.setMessage('.popup_register .message', message, messages.error);
+    });
+  });
 });
 
