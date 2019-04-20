@@ -4,6 +4,7 @@ const userHelper    = require("../lib/util/user-helper")
 const express       = require('express');
 const bcrypt        = require('bcrypt');
 const usersRoutes   = express.Router();
+const ObjectId      = require('mongodb').ObjectID;
 
 const attributes    = {
   login: {
@@ -54,9 +55,68 @@ const checkMandatoryInputs = (attributes, input) => {
   }
 }
 
-module.exports = function(DataHelpers) {
+module.exports = function(DataHelpers, middlewares) {
+  // get users
+  usersRoutes.get("/users", function(req, res) {
 
+    DataHelpers.getUsers((err, users) => {
+      if (err) {
+        res.status(403).send(`Users not found`);
+
+      } else {
+        res.status(201).send(users);
+      }
+    });
+  });
+
+  // get user
+  usersRoutes.get("/:id", middlewares.isLoggedIn, function(req, res) {
+
+    DataHelpers.getUser({'_id': ObjectId(`${req.params.id}`)}, (err, user) => {
+      if (err) {
+        res.status(403).send(`User not found`);
+
+      } else {
+        res.status(201).send(user);
+      }
+    });
+  });
+
+  // create user's Tweet
+  usersRoutes.post("/:id/tweet", middlewares.isLoggedIn, function(req, res) {
+    if (!req.body.text) {
+      res.status(400).json({ error: 'invalid request: no data in POST body'});
+      return;
+    }
+
+    DataHelpers.getUser({'_id': ObjectId(`${req.params.id}`)}, (err, user) => {
+      if (err) {
+        res.status(403).send(`User not found`);
+
+      } else {
+        const tweet = {
+          userId: user._id,
+          content: {
+            text: req.body.text
+          },
+          created_at: Date.now()
+        };
+
+        DataHelpers.saveTweet(tweet, (err, newTweet) => {
+          if (err) {
+            res.status(500).json({ error: err.message });
+          } else {
+            res.status(201).send(newTweet);
+            // res.status(201).send();
+          }
+        });
+      }
+    });
+  });
+
+  // login
   usersRoutes.post("/login", function(req, res) {
+    console.log('begin mongo..............');
     if (!req.body.user) {
       res.status(400).json({ error: 'invalid request: no data in POST body'});
       return;
@@ -76,6 +136,7 @@ module.exports = function(DataHelpers) {
         res.status(403).send(`User not found`);
 
       } else {
+        console.log('begin bcrypt.............');
         if(bcrypt.compareSync( password, user.password)){
           res.json(user);
           req.session.user_id = user.id;
@@ -84,9 +145,11 @@ module.exports = function(DataHelpers) {
           res.status(403).send(`Password doesn't match`);
         }
       }
+      console.log('out mong...............');
     });
   });
 
+  // register
   usersRoutes.post("/register", function(req, res) {
     if (!req.body.user) {
       res.status(400).json({ error: 'invalid request: no data in POST body'});
@@ -131,7 +194,6 @@ module.exports = function(DataHelpers) {
           if (err) {
             res.status(500).json({ error: err.message });
           } else {
-            console.log('created user ', newUser);
             req.session.user_id = newUser.id;
             res.status(201).send(newUser);
             // res.redirect('/login');
@@ -144,7 +206,8 @@ module.exports = function(DataHelpers) {
       }
     });
   });
-  // clear session cookie
+
+  // logout
   usersRoutes.post("/logout", function(req, res) {
     req.session.user_id = null;
     res.status(200).send();

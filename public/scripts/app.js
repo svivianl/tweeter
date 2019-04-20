@@ -13,23 +13,23 @@ $(document).ready(() => {
   FUNCTIONS
 ------------------------------------------------------------------------------------*/
 
-  const createTweetElement = (data) => {
+  const createTweetElement = (data, user) => {
     const $article = $('<article></article>');
     $article.addClass("tweet-article");
 
     // build header
     const $header = $('<header></header>');
     const $avatar = $(`<img>`);
-    $avatar.attr("src",data.user.avatars.small);
+    $avatar.attr("src", user.avatar.small);
     $header.append($avatar);
     const $nameLabel = $('<label></label>');
     const $nameStrong = $(`<strong></strong>`);
-    $nameStrong.text(data.user.name);
+    $nameStrong.text(`${user.firstName} ${user.lastName}`);
     $nameLabel.append($nameStrong);
     $header.append($nameLabel);
     const $handleLabel = $(`<label></label>`);
     $handleLabel.addClass('tag');
-    $handleLabel.text(data.user.handle);
+    $handleLabel.text(`@${user.handle}`);
     $header.append($handleLabel);
 
     // build main
@@ -47,6 +47,7 @@ $(document).ready(() => {
     $div.addClass("icons");
     const $heart = $('<i></i>');
     $heart.addClass("fas fa-heart");
+    $heart.data('tweeterId', data._id);
     const $retweet = $('<i></i>');
     $retweet.addClass("fas fa-retweet");
     const $flag = $('<i></i>');
@@ -67,11 +68,14 @@ $(document).ready(() => {
   // loops through tweets
   // calls createTweetElement for each tweet
   // takes return value and appends it to the tweets container
-  const renderTweets = (tweets) => {
+  const renderTweets = (tweets, users) => {
     const newTweets = [];
-    tweets.forEach(tweetData => {
-      let $tweet = createTweetElement(tweetData);
-      $('#tweets-container').append($tweet);
+    tweets.forEach(function(tweetData) {
+      let user = users.filter(user => user._id === tweetData.userId);
+      if(user && user.length > 0){
+        let $tweet = createTweetElement(tweetData, user[0]);
+        $('#tweets-container').append($tweet);
+      }
     });
 
     // to add it to the page so we can make sure it's got all the right elements, classes, etc.
@@ -81,7 +85,15 @@ $(document).ready(() => {
   const loadTweets = () => {
     $.ajax('/tweets', { method: 'GET' })
       .then(function (tweets) {
-        if(tweets){ renderTweets(tweets); }
+        if(tweets){
+          $.ajax('/users', { method: 'GET' })
+            .then(function (users) {
+              const filterTweets = tweets.filter(tweet => tweet.hasOwnProperty('userId'));
+              const filterUsers = users.filter(user => user.hasOwnProperty('avatar'));
+              if(filterUsers){ renderTweets(tweets, users); }
+              // if(users){ renderTweets(tweets, users); }
+            });
+        }
       });
   }
 
@@ -150,6 +162,18 @@ $(document).ready(() => {
     $('#nav-bar .header').removeClass(removeClass);
     $('#nav-bar .header').addClass(addClass);
   }
+
+  const setUserId = (user) => {
+    $('#btn-compose').data('userID', user._id);
+  }
+
+  const clearUserId = () => {
+    $('#btn-compose').data('userID','');
+  }
+
+  const getUserId = () => {
+    return $('#btn-compose').data('userID');
+  }
 /*------------------------------------------------------------------------------------
 
 ------------------------------------------------------------------------------------*/
@@ -209,17 +233,18 @@ $(document).ready(() => {
     if(message){
       messages.setMessage('.new-tweet .message', message, messages.error);
     }else{
-
-      $.post('/tweets', usrInput)
+      const userId = getUserId();
+      $.post(`/${userId}/tweet`, usrInput)
       .done(function(newTweet){
-
         if(newTweet){
-
-          let $tweet = createTweetElement(newTweet);
-          $('#tweets-container').prepend($tweet);
-          $('.new-tweet textarea').val('');
-          $('.new-tweet .counter').text(charCount);
-          messages.clearMessage('.new-tweet .message');
+          $.ajax(`/${userId}`, { method: 'GET' })
+            .then(function (user) {
+              let $tweet = createTweetElement(newTweet, user);
+              $('#tweets-container').prepend($tweet);
+              $('.new-tweet textarea').val('');
+              $('.new-tweet .counter').text(charCount);
+              messages.clearMessage('.new-tweet .message');
+          });
          }
       })
       .fail((XHR) =>{
@@ -260,6 +285,7 @@ $(document).ready(() => {
       $.post('/login', { user })
       .done(function(userFound){
           setUserNavbar(userFound);
+          setUserId(userFound);
         })
         .fail((XHR) =>{
           const { error, message } = XHR.responseJSON;
@@ -285,6 +311,7 @@ $(document).ready(() => {
       clearPopupInput($this);
       navbarButtonToggle();
       setUserNavbar(userFound);
+      setUserId(userFound);
     })
     .fail((XHR) =>{
       const { error, message } = XHR.responseJSON;
@@ -299,6 +326,7 @@ $(document).ready(() => {
     $.post('/logout')
     .done(function(){
       navbarButtonToggle();
+      clearUserId();
     });
   });
 
