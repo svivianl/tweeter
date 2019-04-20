@@ -26,6 +26,26 @@ module.exports = function makeDataHelpers(db) {
         const sortNewestFirst = (a, b) => b.created_at - a.created_at;
         callback(null, tweets.sort(sortNewestFirst));
       });
+    },
+
+    // Save user
+    saveUser: function(newUser, callback)  {
+      db.collection("users").insertOne(newUser, (err, res) => {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, res.ops[0]);
+      });
+    },
+
+    // Get user
+    getUser: function(query, callback){
+      db.collection("users").find().findOne(query, (err, user) => {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, user);
+      });
     }
   };
 }

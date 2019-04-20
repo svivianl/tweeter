@@ -43,3 +43,37 @@ main{
   align-content: center;*/
 }
 
+/* popup*/
+.popupModal{
+  top: 0;
+  left: 0;
+  position:
+  fixed;
+  width: 100%;
+  height: 120%;
+  background-color: rgba(0,0,0,0.7);
+  display: none;
+}
+.popupBoxWrapper{
+  width: 35rem;
+  margin: 4rem auto;
+  text-align: left;
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px){
+  .popupBoxWrapper{
+    /*width: 20rem;*/
+    margin: 1rem auto;
+    text-align: left;
+  }
+}
+
+.popupBoxContent{
+  background-color: rgb(240,240,240);
+  padding: 1rem 1rem 4rem 1rem;
+}
+
+.popup-header{
+  display: flex;
+  align-content: space-between;
+}

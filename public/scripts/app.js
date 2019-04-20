@@ -89,7 +89,8 @@ $(document).ready(() => {
 
 ------------------------------------------------------------------------------------*/
   $('.new-tweet .counter').text(charCount);
-
+  $('#popup_login').toggle('popup-display');
+  $('#popup_register').toggle('popup-display');
   loadTweets();
 
 /*------------------------------------------------------------------------------------
@@ -163,5 +164,19 @@ $(document).ready(() => {
     }
   });
 
+  $('#btn-login').on('click', function(e){
+    $('#popup_login').toggle('popup-display');
+  });
 
+  $('#btn-register').on('click', function(e){
+    $('#popup_register').toggle('popup-display');
+  });
+
+  $('.btn-cancel').on('click', function(e) {
+    // clear all the input data
+    $('input', $(this).parent()).val('');
+    // finds the parent with the id of the popup to toggle
+    $(`#${$(this).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
+  })
 });
+
