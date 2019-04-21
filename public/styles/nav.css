@@ -21,11 +21,11 @@ nav {
 }
 
 #nav-bar .header.loggedin-width{
-  width: 80%;
+  width: 70%;
 }
 
 #nav-bar .header.loggedout-width{
-  width: 70%;
+  width: 80%;
 }
 
 #nav-bar .header label{
@@ -61,7 +61,7 @@ nav {
   /*display: none;*/
   margin: 0.3rem;
   border: solid 0.1rem;
-  border-radius: 0.5rem;
+  border-radius: 2rem;
 }
 
 .btn-loggedin ul{
@@ -120,11 +120,16 @@ button:hover {
   display: block;
 }
 
-@media (max-width: 976px){
+@media (max-width: 1020px){
 
   #nav-bar .header.loggedin-width{
     width: 60%;
   }
+
+  /*#nav-bar .header.loggedout-width{
+    width: 70%;
+  }
+*/
 
 }
 /*# sourcremappingURL=nav.css.map */
