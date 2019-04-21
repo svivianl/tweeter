@@ -87,4 +87,7 @@
   display: block;
 }
 
+#tweets-container .fa-heart{
+  cursor: pointer;
+}
 /*# sourceMappingURL=1-sass-tweets.css.map */

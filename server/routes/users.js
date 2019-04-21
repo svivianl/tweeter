@@ -58,6 +58,8 @@ const checkMandatoryInputs = (attributes, input) => {
 module.exports = function(DataHelpers, middlewares) {
   // get users
   usersRoutes.get("/users", function(req, res) {
+    // console.log('get...........');
+    // req.session.user_id = '';
 
     DataHelpers.getUsers((err, users) => {
       if (err) {
@@ -116,7 +118,6 @@ module.exports = function(DataHelpers, middlewares) {
 
   // login
   usersRoutes.post("/login", function(req, res) {
-    console.log('begin mongo..............');
     if (!req.body.user) {
       res.status(400).json({ error: 'invalid request: no data in POST body'});
       return;
@@ -136,16 +137,16 @@ module.exports = function(DataHelpers, middlewares) {
         res.status(403).send(`User not found`);
 
       } else {
-        console.log('begin bcrypt.............');
         if(bcrypt.compareSync( password, user.password)){
           res.json(user);
-          req.session.user_id = user.id;
+          req.session.user_id = user._id;
+          // res.session.user_id = user._id;
           // res.redirect('/');
         }else{
           res.status(403).send(`Password doesn't match`);
         }
       }
-      console.log('out mong...............');
+      console.log('req.session.user_id ', req.session.user_id);
     });
   });
 
@@ -185,7 +186,7 @@ module.exports = function(DataHelpers, middlewares) {
         const user = {
           firstName,
           lastName,
-          password: bcrypt.hashSync(password, 20),
+          password: bcrypt.hashSync(password, 10),
           handle,
           avatar
         };
@@ -194,7 +195,7 @@ module.exports = function(DataHelpers, middlewares) {
           if (err) {
             res.status(500).json({ error: err.message });
           } else {
-            req.session.user_id = newUser.id;
+            req.session.user_id = newUser._id;
             res.status(201).send(newUser);
             // res.redirect('/login');
             // res.status(201).send();

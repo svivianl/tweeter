@@ -49,6 +49,11 @@ $(document).ready(() => {
     $heart.addClass("fas fa-heart");
     $heart.data('tweeterId', data._id);
     const $retweet = $('<i></i>');
+    if(data.hasOwnProperty('liked')){
+      const $liked = $('<label>');
+      $liked.text(data.liked);
+      $heart.append($liked);
+    }
     $retweet.addClass("fas fa-retweet");
     const $flag = $('<i></i>');
     $flag.addClass("fas fa-flag");
@@ -330,8 +335,39 @@ $(document).ready(() => {
     });
   });
 
+  // avatar nav bar
   $('.btn-loggedin img').on('click', function(e){
     $('.btn-loggedin #loggedin-options').toggle('display');
   });
+
+  // like
+  $('#tweets-container').on('click','.fa-heart', function(e){
+    e.preventDefault();
+
+    const $this = $(this);
+    const user = getPopupInput($this);
+
+    $.ajax(`/tweets/${$(this).data('tweeterId')}/liked`, { method: 'PUT' })
+    .done(function(tweet){
+
+      const $heart = $('.fa-heart', $(this));
+      const $label = $(`#${$heart} :label`);
+
+      if($label){
+        $label.text(tweet.liked);
+      }else{
+        $label = $('<label>');
+        $label.text(tweet.liked);
+        $('.fa-heart', $(this)).append($label);
+      }
+    })
+    .fail((XHR) =>{
+      messages.setMessage('#tweets-container .message', XHR.responseText, messages.error);
+    });
+  });
+// $(`#${parentId} :input`)
+  // $('.global-message .message').on('click', function(e)=>{
+  //   messages.clearMessage(`.global-message .message`);
+  // });
 });
 

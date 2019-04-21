@@ -6,6 +6,8 @@ This repository is the starter code for the project: Students will fork and clon
 
 ## Final Product
 
+The user can only like a tweeter after they are logged-in.
+
 #### Main Page
 ![Image of Main Page](./public/images/main.png)
 

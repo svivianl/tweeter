@@ -7,9 +7,9 @@ const express       = require("express");
 const bodyParser    = require("body-parser");
 const app           = express();
 const cookieSession = require('cookie-session');
-const mongodb = require('mongodb');
-const MongoClient   = mongodb.MongoClient;
-// const MongoClient   = require("mongodb").MongoClient;
+// const mongodb = require('mongodb');
+// const MongoClient   = mongodb.MongoClient;
+const MongoClient   = require("mongodb").MongoClient;
 const MONGODB_URI   = "mongodb://localhost:27017/tweeter";
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,9 +23,10 @@ app.use(cookieSession({
 }));
 
 app.locals.moment = require("moment");
-var mongoDebug = require('node-mongodb-debug-log');
-mongoDebug.install(mongodb);
-process.env.DEBUG = 'mongodb-query node index.js';
+// var mongoDebug = require('node-mongodb-debug-log');
+// mongoDebug.install(mongodb);
+// process.env.DEBUG = 'mongodb-query node index.js';
+
 // const mongoose      = require("mongoose");
 // mongoose.set('debug',true);
 // mongoose.connect(MONGODB_URI, (err, db) => {

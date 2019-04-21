@@ -16,9 +16,9 @@ const messages = {
   clearMessage: function(element) {
     this.types.forEach( type => $(element).removeClass( type ));
     $(element).text('');
-    $(element).addClass(this.class);
+    // $(element).addClass(this.class);
 
-    if($(element).css('Display') === 'block'){
+    if($(element).css('display') === 'block'){
       $(element).slideToggle();
     }
   },
