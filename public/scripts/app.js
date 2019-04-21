@@ -160,15 +160,11 @@ $(document).ready(() => {
   const setUserNavbar = (user) => {
     $('#nav-bar .btn-loggedin img').attr('src', user.avatar.small);
     $('#nav-bar .handle').text(`@${user.handle}`);
-    // $('.btn-loggedin.user img').src(user.avatar.small);
-    // $('.btn-loggedin.user .habdle').text(`@${user.handle}`);
   }
 
   const clearUserNavbar = (user) => {
     $('#nav-bar .btn-loggedin img').attr('src', '');
     $('#nav-bar .handle').text(``);
-    // $('.btn-loggedin.user img').src(user.avatar.small);
-    // $('.btn-loggedin.user .habdle').text(`@${user.handle}`);
   }
 
   const setUserId = (user) => {
@@ -186,8 +182,6 @@ $(document).ready(() => {
   const navbarButtonToggle = () => {
     $('.btn-login-register').toggle('popup-display');
     $('.btn-loggedin').toggle('popup-display');
-    // $('#loggedin-options').toggle('display');
-    // $('.btn-loggedin #loggedin-options').toggle('display');
 
     //
     let addClass = 'loggedin-width';
@@ -195,7 +189,6 @@ $(document).ready(() => {
 
     const userId = getUserId();
     if(!getUserId){
-    // if($('.btn-login-register').css('display', 'block')){
       removeClass = 'loggedin-width';
       addClass = 'loggedout-width';
     }

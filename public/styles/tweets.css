@@ -11,13 +11,10 @@
 .tweet-article header {
   width: auto;
   height: 5rem;
-  /*width: 5rem;*/
-  /*height: 5rem;*/
   background-color: #eee;
   border-radius: 0.5rem;
   opacity: 0.6;
   display: flex;
-  /*justify-content: space-between;*/
   align-items: center;
 }
 
@@ -29,16 +26,12 @@
   width: 4rem;
   height: 4rem;
   margin: 0.5em;
-  /*float: left;*/
   border-radius: 0.5rem;
 }
 
 .tweet-article label{
   flex-basis: 70%;
 }
-/*.tweet-article label {
-  line-height: 2.5;
-}*/
 
 .tweet-article main {
   width: auto;
@@ -64,8 +57,6 @@
 }
 
 .tweet-article footer i {
-  /*float: right;*/
-  /*line-height: 2.5;*/
   margin: 0 0.5rem;
 }
 
@@ -79,7 +70,6 @@
 }
 
 .tweet-article footer div.icons {
-  /*float: right;*/
   display: none;
 }
 

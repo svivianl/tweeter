@@ -44,3 +44,7 @@ If a message is displayed under  the navbar, to make it disappear, you need to c
 
 * When a user clicks a tweet's "Like" button, the "Like" count is updated
 * Only logged-in users may "like" tweets, and they may not "like" their own tweets
+
+## Known issues
+
+* Compose button needs to be vertical centered

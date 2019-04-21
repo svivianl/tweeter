@@ -165,7 +165,6 @@ module.exports = function(DataHelpers, middlewares) {
         if(bcrypt.compareSync( password, user.password)){
           req.session.user_id = user._id;
           res.json(user);
-      console.log('login: ... req.session.user_id ', req.session.user_id);
           // res.session.user_id = user._id;
           // res.redirect('/');
         }else{

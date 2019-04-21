@@ -1,7 +1,5 @@
 "use strict";
 
-// const userHelper    = require("../lib/util/user-helper")
-
 const express       = require('express');
 const tweetsRoutes  = express.Router();
 const ObjectId      = require('mongodb').ObjectID;
@@ -34,7 +32,6 @@ module.exports = function(DataHelpers, middlewares) {
       return;
     }
 
-    // const user = req.body.user ? req.body.user : userHelper.generateRandomUser();
     const tweet = {
       userId: req.session.user_id,
       content: {
@@ -72,25 +69,13 @@ module.exports = function(DataHelpers, middlewares) {
       }
 
       DataHelpers.updateTweet(tweet, (err, updatedTweet) => {
-      // DataHelpers.updateTweet(tweet, (err, response) => {
         if (err) {
           return res.status(500).json({ error: err.message });
         }
         res.status(201).send(updatedTweet);
-        // DataHelpers.getTweet({'_id': ObjectId(`${req.params.id}`)}, (err, updatedTweet) => {
-        //   if (err) {
-        //     res.status(403).send(`Tweet not found`);
-
-        //   } else {
-        //     console.log('updatedTweet ', updatedTweet);
-        //     res.status(201).send(updatedTweet);
-        //   }
-        // });
-          // res.status(201).send();
       });
     });
   });
 
   return tweetsRoutes;
-
 }

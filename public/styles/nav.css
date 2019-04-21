@@ -4,10 +4,8 @@ nav {
   background-color: #00a087;
   color: #e8fdff;
   padding: 0 2rem;
-  /*position: fixed;*/
   display: flex;
   align-items: center;
-  /*flex-direction: row;*/
 }
 
 #nav-bar .logo {
@@ -53,12 +51,9 @@ nav {
   height: 4rem;
   font-size: 1.5rem;
   padding-right: 0.5rem;
-  /*display: flex;
-  align-items: center;*/
 }
 
 .btn-loggedin img{
-  /*display: none;*/
   margin: 0.3rem;
   border: solid 0.1rem;
   border-radius: 2rem;
@@ -70,7 +65,6 @@ nav {
 
 .btn-nav,
 .btn-login-register,
-/*.btn-loggedin,*/
 .btn-cancel,
 .btn-loggedin img,
 .btn-loggedin a,
@@ -124,29 +118,15 @@ button:hover {
 @media (max-width: 1020px){
 
   #nav-bar .header.loggedin-width{
-    width: 60%;
+    width: 80%;
   }
-
-  /*#nav-bar .header.loggedout-width{
-    width: 70%;
-  }
-*/
-
 }
 
 /* Dropdown Button */
 .dropdown-btn {
   background-color: #00a087;
   color: #e8fdff;
-/*  padding: 1rem;
-  font-size: 1rem;*/
   border: none;
-}
-
-/* The container <div> - needed to position the dropdown content */
-.dropdown {
-  /*position: relative;
-  display: inline-block;*/
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -181,16 +161,6 @@ button:hover {
   display: block;
   color: black;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /*# sourcremappingURL=nav.css.map */

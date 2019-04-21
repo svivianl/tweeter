@@ -22,11 +22,8 @@ module.exports = function makeDataHelpers(db) {
         if (err) {
           return callback(err);
         }
-        const filterTweets = tweets.filter(tweet => tweet.hasOwnProperty('userId') && tweet.userId);
         const sortNewestFirst = (a, b) => b.created_at - a.created_at;
-        callback(null, filterTweets.sort(sortNewestFirst));
-        // const sortNewestFirst = (a, b) => b.created_at - a.created_at;
-        // callback(null, tweets.sort(sortNewestFirst));
+        callback(null, tweets.sort(sortNewestFirst));
       });
     },
 
