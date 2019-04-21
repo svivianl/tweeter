@@ -61,7 +61,15 @@ module.exports = function(DataHelpers, middlewares) {
 
       }
 
-      (! tweet.hasOwnProperty('liked')) ? tweet['liked'] = 1 : tweet.liked ++;
+      if(! tweet.hasOwnProperty('liked')){
+        tweet['liked'] = [];
+      }
+
+      if(tweet.liked.includes(req.session.user_id)){
+        tweet.liked.pop(req.session.user_id);
+      }else{
+        tweet.liked.push(req.session.user_id);
+      }
 
       DataHelpers.updateTweet(tweet, (err, updatedTweet) => {
       // DataHelpers.updateTweet(tweet, (err, response) => {

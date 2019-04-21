@@ -199,7 +199,7 @@ $(document).ready(() => {
     .done(function(tweet){
 
       if($label){
-        $label.text(tweet.liked);
+        $label.text(tweet.liked.length);
         const $heart = $('<i></i>');
         $heart.addClass("fas fa-heart");
         $heart.data('tweeterId', id);
