@@ -24,9 +24,9 @@ $(document).ready(() => {
   const getUserCookie = () => {
     $.ajax('/user', { method: 'GET' })
       .then(function (userFound) {
-        navbarButtonToggle();
         setUserNavbar(userFound);
         setUserId(userFound);
+        navbarButtonToggle();
       });
   }
 
@@ -164,22 +164,11 @@ $(document).ready(() => {
     // $('.btn-loggedin.user .habdle').text(`@${user.handle}`);
   }
 
-  const navbarButtonToggle = () => {
-    $('.btn-login-register').toggle('popup-display');
-    $('.btn-loggedin').toggle('popup-display');
-    // $('#loggedin-options').toggle('display');
-    // $('.btn-loggedin #loggedin-options').toggle('display');
-
-    //
-    let addClass = 'loggedin-width';
-    let removeClass = 'loggedout-width';
-
-    if($('.btn-login-register').css('display', 'block')){
-      removeClass = 'loggedin-width';
-      addClass = 'loggedout-width';
-    }
-    $('#nav-bar .header').removeClass(removeClass);
-    $('#nav-bar .header').addClass(addClass);
+  const clearUserNavbar = (user) => {
+    $('#nav-bar .btn-loggedin img').attr('src', '');
+    $('#nav-bar .handle').text(``);
+    // $('.btn-loggedin.user img').src(user.avatar.small);
+    // $('.btn-loggedin.user .habdle').text(`@${user.handle}`);
   }
 
   const setUserId = (user) => {
@@ -192,6 +181,26 @@ $(document).ready(() => {
 
   const getUserId = () => {
     return $('#btn-compose').data('userID');
+  }
+
+  const navbarButtonToggle = () => {
+    $('.btn-login-register').toggle('popup-display');
+    $('.btn-loggedin').toggle('popup-display');
+    // $('#loggedin-options').toggle('display');
+    // $('.btn-loggedin #loggedin-options').toggle('display');
+
+    //
+    let addClass = 'loggedin-width';
+    let removeClass = 'loggedout-width';
+
+    const userId = getUserId();
+    if(!getUserId){
+    // if($('.btn-login-register').css('display', 'block')){
+      removeClass = 'loggedin-width';
+      addClass = 'loggedout-width';
+    }
+    $('#nav-bar .header').removeClass(removeClass);
+    $('#nav-bar .header').addClass(addClass);
   }
 
   const liked = function(id, $label){
@@ -339,9 +348,9 @@ $(document).ready(() => {
     $.post('/login', { user })
     .done(function(userFound){
       clearPopupInput($this);
-      navbarButtonToggle();
       setUserNavbar(userFound);
       setUserId(userFound);
+      navbarButtonToggle();
     })
     .fail((XHR) =>{
       messages.setMessage('#popup_login .message', getResponseError(XHR), messages.error);
@@ -356,6 +365,7 @@ $(document).ready(() => {
     .done(function(){
       navbarButtonToggle();
       clearUserId();
+      clearUserNavbar();
     });
   });
 

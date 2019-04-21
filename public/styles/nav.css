@@ -70,9 +70,10 @@ nav {
 
 .btn-nav,
 .btn-login-register,
-.btn-loggedin,
+/*.btn-loggedin,*/
 .btn-cancel,
 .btn-loggedin img,
+.btn-loggedin a,
 button:hover {
   cursor: pointer;
 }
@@ -132,4 +133,64 @@ button:hover {
 */
 
 }
+
+/* Dropdown Button */
+.dropdown-btn {
+  background-color: #00a087;
+  color: #e8fdff;
+/*  padding: 1rem;
+  font-size: 1rem;*/
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  /*position: relative;
+  display: inline-block;*/
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-options {
+  display: none;
+  position: absolute;
+  background-color: #00a087;
+  color: #e8fdff;
+  min-width: 6rem;
+  box-shadow: 0 0.5rem 1rem 0 rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-options a,
+.dropdown-options span {
+  color: #e8fdff;
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  display: block;
+  background-color: #00a087;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-options {
+  display: block;
+  color: #e8fdff;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown-options:hover {
+  display: block;
+  color: black;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 /*# sourcremappingURL=nav.css.map */
