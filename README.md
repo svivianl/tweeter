@@ -7,6 +7,7 @@ This repository is the starter code for the project: Students will fork and clon
 ## Final Product
 
 The user can only like a tweeter after they are logged-in.
+If a message is displayed under  the navbar, to make it disappear, you need to click the message.
 
 #### Main Page
 ![Image of Main Page](./public/images/main.png)

@@ -12,6 +12,23 @@ $(document).ready(() => {
 /*------------------------------------------------------------------------------------
   FUNCTIONS
 ------------------------------------------------------------------------------------*/
+  const getResponseError = (XHR)=>{
+    if(XHR.responseJSON){
+      const { error, message } = XHR.responseJSON;
+      return error;
+    }
+    return XHR.responseText;
+  }
+
+  // get user from cookie
+  const getUserCookie = () => {
+    $.ajax('/user', { method: 'GET' })
+      .then(function (userFound) {
+        navbarButtonToggle();
+        setUserNavbar(userFound);
+        setUserId(userFound);
+      });
+  }
 
   const createTweetElement = (data, user) => {
     const $article = $('<article></article>');
@@ -45,19 +62,19 @@ $(document).ready(() => {
     $footer.append($label);
     const $div = $('<div></div>');
     $div.addClass("icons");
+    const $liked = $('<label>');
+    if(data.hasOwnProperty('liked')){
+      $liked.text(data.liked);
+    }
     const $heart = $('<i></i>');
     $heart.addClass("fas fa-heart");
     $heart.data('tweeterId', data._id);
+    $liked.append($heart);
     const $retweet = $('<i></i>');
-    if(data.hasOwnProperty('liked')){
-      const $liked = $('<label>');
-      $liked.text(data.liked);
-      $heart.append($liked);
-    }
     $retweet.addClass("fas fa-retweet");
     const $flag = $('<i></i>');
     $flag.addClass("fas fa-flag");
-    $div.append($heart);
+    $div.append($liked);
     $div.append($retweet);
     $div.append($flag);
     $footer.append($div);
@@ -93,10 +110,7 @@ $(document).ready(() => {
         if(tweets){
           $.ajax('/users', { method: 'GET' })
             .then(function (users) {
-              const filterTweets = tweets.filter(tweet => tweet.hasOwnProperty('userId'));
-              const filterUsers = users.filter(user => user.hasOwnProperty('avatar'));
-              if(filterUsers){ renderTweets(tweets, users); }
-              // if(users){ renderTweets(tweets, users); }
+              if(users){ renderTweets(tweets, users); }
             });
         }
       });
@@ -180,11 +194,12 @@ $(document).ready(() => {
     return $('#btn-compose').data('userID');
   }
 /*------------------------------------------------------------------------------------
-
+  MAIN
 ------------------------------------------------------------------------------------*/
   $('.new-tweet .counter').text(charCount);
   $('#popup_login').toggle('popup-display');
   $('#popup_register').toggle('popup-display');
+  getUserCookie();
   loadTweets();
 
 /*------------------------------------------------------------------------------------
@@ -253,8 +268,7 @@ $(document).ready(() => {
          }
       })
       .fail((XHR) =>{
-        const { error, message } = XHR.responseJSON;
-        messages.setMessage('.new-tweet .message', error, messages.error);
+        messages.setMessage('.new-tweet .message', getResponseError(XHR), messages.error);
       });
     }
   });
@@ -293,14 +307,12 @@ $(document).ready(() => {
           setUserId(userFound);
         })
         .fail((XHR) =>{
-          const { error, message } = XHR.responseJSON;
-          messages.setMessage('#popup_register .message', error, messages.error);
+          messages.setMessage('#popup_register .message', getResponseError(XHR), messages.error);
         });
 
     })
     .fail((XHR) =>{
-      const { error, message } = XHR.responseJSON;
-      messages.setMessage('#popup_register .message', error, messages.error);
+      messages.setMessage('#popup_register .message', getResponseError(XHR), messages.error);
     });
   });
 
@@ -319,8 +331,7 @@ $(document).ready(() => {
       setUserId(userFound);
     })
     .fail((XHR) =>{
-      const { error, message } = XHR.responseJSON;
-      messages.setMessage('#popup_login .message', error, messages.error);
+      messages.setMessage('#popup_login .message', getResponseError(XHR), messages.error);
     });
   });
 
@@ -341,33 +352,52 @@ $(document).ready(() => {
   });
 
   // like
+  const test = function(id, $label){
+    $.ajax(`/tweets/${id}/liked`, { method: 'PUT' })
+    .done(function(tweet){
+
+      if($label){
+        $label.text(tweet.liked);
+        const $heart = $('<i></i>');
+        $heart.addClass("fas fa-heart");
+        $heart.data('tweeterId', id);
+        $label.append($heart);
+      }
+    })
+    .fail((XHR) =>{
+      messages.setMessage('#tweets-container .message', getResponseError(XHR), messages.error);
+    });
+  };
   $('#tweets-container').on('click','.fa-heart', function(e){
     e.preventDefault();
 
     const $this = $(this);
     const user = getPopupInput($this);
+    test($(this).data('tweeterId'), $this.parent());
+    // $.ajax(`/tweets/${$(this).data('tweeterId')}/liked`, { method: 'PUT' })
+    // .done(function(tweet){
+    //   const $heart = $('.fa-heart', $(this));
+    //   const $label = $(`#${$heart} :label`);
 
-    $.ajax(`/tweets/${$(this).data('tweeterId')}/liked`, { method: 'PUT' })
-    .done(function(tweet){
-
-      const $heart = $('.fa-heart', $(this));
-      const $label = $(`#${$heart} :label`);
-
-      if($label){
-        $label.text(tweet.liked);
-      }else{
-        $label = $('<label>');
-        $label.text(tweet.liked);
-        $('.fa-heart', $(this)).append($label);
-      }
-    })
-    .fail((XHR) =>{
-      messages.setMessage('#tweets-container .message', XHR.responseText, messages.error);
-    });
+    //   if($label){
+    //     $label.text(tweet.liked);
+    //   }else{
+    //     $label = $('<label>');
+    //     $label.text(tweet.liked);
+    //     $('.fa-heart', $(this)).append($label);
+    //   }
+    // })
+    // .fail((XHR) =>{
+    //   messages.setMessage('#tweets-container .message', getResponseError(XHR), messages.error);
+    // });
   });
+
 // $(`#${parentId} :input`)
-  // $('.global-message .message').on('click', function(e)=>{
-  //   messages.clearMessage(`.global-message .message`);
-  // });
+  $('.global-message .message').on('click', function(e){
+  // debugger;
+    e.preventDefault();
+    e.stopPropagation();
+    messages.clearMessage(`.global-message .message`);
+  });
 });
 

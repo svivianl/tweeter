@@ -34,9 +34,9 @@ module.exports = function(DataHelpers, middlewares) {
       return;
     }
 
-    const user = req.body.user ? req.body.user : userHelper.generateRandomUser();
+    // const user = req.body.user ? req.body.user : userHelper.generateRandomUser();
     const tweet = {
-      user: user,
+      userId: req.session.user_id,
       content: {
         text: req.body.text
       },
@@ -53,31 +53,33 @@ module.exports = function(DataHelpers, middlewares) {
     });
   });
 
-  tweetsRoutes.put("/:id/liked", middlewares.isLoggedIn, function(req, res) {
+  tweetsRoutes.put("/:id/liked", middlewares.isUsersTweeter, function(req, res) {
 
     DataHelpers.getTweet({'_id': ObjectId(`${req.params.id}`)}, (err, tweet) => {
       if (err) {
-        res.status(403).send(`Tweet not found`);
+        return res.status(403).send(`Tweet not found`);
 
-      } else {
-
-        if(tweet.userId === req.session.user_id){
-          res.status(400).send('Unauthorized');
-
-        }else{
-          (! tweet.hasOwnProperty('liked')) ? tweet['liked'] = 1 : tweet.liked ++;
-
-          DataHelpers.updateTweet(tweet, (err, updatedTweet) => {
-            if (err) {
-              res.status(500).json({ error: err.message });
-            } else {
-              res.status(201).send(updatedTweet);
-              // res.status(201).send();
-            }
-          });
-
-        }
       }
+
+      (! tweet.hasOwnProperty('liked')) ? tweet['liked'] = 1 : tweet.liked ++;
+
+      DataHelpers.updateTweet(tweet, (err, updatedTweet) => {
+      // DataHelpers.updateTweet(tweet, (err, response) => {
+        if (err) {
+          return res.status(500).json({ error: err.message });
+        }
+        res.status(201).send(updatedTweet);
+        // DataHelpers.getTweet({'_id': ObjectId(`${req.params.id}`)}, (err, updatedTweet) => {
+        //   if (err) {
+        //     res.status(403).send(`Tweet not found`);
+
+        //   } else {
+        //     console.log('updatedTweet ', updatedTweet);
+        //     res.status(201).send(updatedTweet);
+        //   }
+        // });
+          // res.status(201).send();
+      });
     });
   });
 

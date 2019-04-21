@@ -22,8 +22,11 @@ module.exports = function makeDataHelpers(db) {
         if (err) {
           return callback(err);
         }
+        const filterTweets = tweets.filter(tweet => tweet.hasOwnProperty('userId') && tweet.userId);
         const sortNewestFirst = (a, b) => b.created_at - a.created_at;
-        callback(null, tweets.sort(sortNewestFirst));
+        callback(null, filterTweets.sort(sortNewestFirst));
+        // const sortNewestFirst = (a, b) => b.created_at - a.created_at;
+        // callback(null, tweets.sort(sortNewestFirst));
       });
     },
 
@@ -46,8 +49,7 @@ module.exports = function makeDataHelpers(db) {
             {$set: {"liked": updateTweet.liked}} // Update
         )
         .then((updatedTweet) => {
-          console.log('updatedTweet - ' + updatedTweet);
-          callback(null, updatedTweet);
+          callback(null, updateTweet);
         })
         .catch((err) => {
           return callback(err);

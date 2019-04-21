@@ -55,6 +55,9 @@ const checkMandatoryInputs = (attributes, input) => {
   }
 }
 
+// checks if user is logged in
+const isUserLoggedIn = (id) => (id === '' || id === undefined) ?  false : true;
+
 module.exports = function(DataHelpers, middlewares) {
   // get users
   usersRoutes.get("/users", function(req, res) {
@@ -71,17 +74,39 @@ module.exports = function(DataHelpers, middlewares) {
     });
   });
 
+  // get loggedin user
+  usersRoutes.get("/user", function(req, res) {
+
+    if(middlewares.hasUserLoggedIn(req.session.user_id)){
+
+      DataHelpers.getUser({'_id': ObjectId(`${req.session.user_id}`)}, (err, user) => {
+        if (err) {
+          res.status(403).send(`User not found`);
+
+        } else {
+          res.status(201).send(user);
+        }
+      });
+    }
+  });
+
   // get user
   usersRoutes.get("/:id", middlewares.isLoggedIn, function(req, res) {
 
-    DataHelpers.getUser({'_id': ObjectId(`${req.params.id}`)}, (err, user) => {
-      if (err) {
-        res.status(403).send(`User not found`);
+    try{
+      if(req.params.id){
+        DataHelpers.getUser({'_id': ObjectId(`${req.params.id}`)}, (err, user) => {
+          if (err) {
+            res.status(403).send(`User not found`);
 
-      } else {
-        res.status(201).send(user);
+          } else {
+            res.status(201).send(user);
+          }
+        });
       }
-    });
+    }catch(e){
+
+    }
   });
 
   // create user's Tweet
@@ -138,15 +163,15 @@ module.exports = function(DataHelpers, middlewares) {
 
       } else {
         if(bcrypt.compareSync( password, user.password)){
-          res.json(user);
           req.session.user_id = user._id;
+          res.json(user);
+      console.log('login: ... req.session.user_id ', req.session.user_id);
           // res.session.user_id = user._id;
           // res.redirect('/');
         }else{
           res.status(403).send(`Password doesn't match`);
         }
       }
-      console.log('req.session.user_id ', req.session.user_id);
     });
   });
 
@@ -215,6 +240,5 @@ module.exports = function(DataHelpers, middlewares) {
   });
 
   return usersRoutes;
-
 }
 
