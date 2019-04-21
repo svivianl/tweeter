@@ -23,7 +23,6 @@ If a message is displayed under  the navbar, to make it disappear, you need to c
 - Express
 - Node 5.10.x or above
 - body-parser
-- chance
 - md5
 - moment
 - mongo

@@ -193,6 +193,23 @@ $(document).ready(() => {
   const getUserId = () => {
     return $('#btn-compose').data('userID');
   }
+
+  const liked = function(id, $label){
+    $.ajax(`/tweets/${id}/liked`, { method: 'PUT' })
+    .done(function(tweet){
+
+      if($label){
+        $label.text(tweet.liked);
+        const $heart = $('<i></i>');
+        $heart.addClass("fas fa-heart");
+        $heart.data('tweeterId', id);
+        $label.append($heart);
+      }
+    })
+    .fail((XHR) =>{
+      messages.setMessage('#tweets-container .message', getResponseError(XHR), messages.error);
+    });
+  };
 /*------------------------------------------------------------------------------------
   MAIN
 ------------------------------------------------------------------------------------*/
@@ -283,10 +300,6 @@ $(document).ready(() => {
 
   $('.btn-cancel').on('click', function(e) {
     clearPopupInput($(this));
-    // // clear all the input data
-    // $('input', $(this).parent()).val('');
-    // // finds the parent with the id of the popup to toggle
-    // $(`#${$(this).parent().parent().parent().parent().attr('id')}`).toggle('popup-display');
   });
 
   // submit register
@@ -352,44 +365,12 @@ $(document).ready(() => {
   });
 
   // like
-  const test = function(id, $label){
-    $.ajax(`/tweets/${id}/liked`, { method: 'PUT' })
-    .done(function(tweet){
-
-      if($label){
-        $label.text(tweet.liked);
-        const $heart = $('<i></i>');
-        $heart.addClass("fas fa-heart");
-        $heart.data('tweeterId', id);
-        $label.append($heart);
-      }
-    })
-    .fail((XHR) =>{
-      messages.setMessage('#tweets-container .message', getResponseError(XHR), messages.error);
-    });
-  };
   $('#tweets-container').on('click','.fa-heart', function(e){
     e.preventDefault();
 
     const $this = $(this);
     const user = getPopupInput($this);
-    test($(this).data('tweeterId'), $this.parent());
-    // $.ajax(`/tweets/${$(this).data('tweeterId')}/liked`, { method: 'PUT' })
-    // .done(function(tweet){
-    //   const $heart = $('.fa-heart', $(this));
-    //   const $label = $(`#${$heart} :label`);
-
-    //   if($label){
-    //     $label.text(tweet.liked);
-    //   }else{
-    //     $label = $('<label>');
-    //     $label.text(tweet.liked);
-    //     $('.fa-heart', $(this)).append($label);
-    //   }
-    // })
-    // .fail((XHR) =>{
-    //   messages.setMessage('#tweets-container .message', getResponseError(XHR), messages.error);
-    // });
+    liked($(this).data('tweeterId'), $this.parent());
   });
 
 // $(`#${parentId} :input`)

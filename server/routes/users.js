@@ -1,6 +1,6 @@
 "use strict";
 
-const userHelper    = require("../lib/util/user-helper")
+// const userHelper    = require("../lib/util/user-helper")
 const express       = require('express');
 const bcrypt        = require('bcrypt');
 const usersRoutes   = express.Router();
