@@ -11,7 +11,9 @@ const app           = express();
 const cookieSession = require('cookie-session');
 const MongoClient   = require("mongodb").MongoClient;
 const MONGODB_URI   = process.env.MONDODB_URI;
-
+console.log('..........................................logs');
+console.log(process.env.MONDODB_URI);
+console.log(MONDODB_URI);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieSession({
