@@ -1,6 +1,5 @@
 "use strict";
 
-// const userHelper    = require("../lib/util/user-helper")
 const express       = require('express');
 const bcrypt        = require('bcrypt');
 const usersRoutes   = express.Router();
@@ -16,8 +15,6 @@ const attributes    = {
     firstName: 'First name',
     lastName: 'Last name',
     email: 'E-mail',
-    // handle: 'Username',
-    // password: 'Password',
     passwordConfirm: 'Confirm Password',
     avatar: {
       small: 'Small avatar',
@@ -61,8 +58,6 @@ const isUserLoggedIn = (id) => (id === '' || id === undefined) ?  false : true;
 module.exports = function(DataHelpers, middlewares) {
   // get users
   usersRoutes.get("/users", function(req, res) {
-    // console.log('get...........');
-    // req.session.user_id = '';
 
     DataHelpers.getUsers((err, users) => {
       if (err) {
@@ -134,7 +129,6 @@ module.exports = function(DataHelpers, middlewares) {
             res.status(500).json({ error: err.message });
           } else {
             res.status(201).send(newTweet);
-            // res.status(201).send();
           }
         });
       }
@@ -156,8 +150,6 @@ module.exports = function(DataHelpers, middlewares) {
 
     const {handle, password} = req.body.user;
     DataHelpers.getUser({handle}, (err, user) => {
-    // DataHelpers.getUser({handle}, {password: 1, handle: 1}, (err, user) => {
-    // DataHelpers.getUser({handle}, {password: 1, handle: 1, 'avatar.small': 1}, (err, user) => {
       if (err) {
         res.status(403).send(`User not found`);
 
@@ -165,8 +157,6 @@ module.exports = function(DataHelpers, middlewares) {
         if(bcrypt.compareSync( password, user.password)){
           req.session.user_id = user._id;
           res.json(user);
-          // res.session.user_id = user._id;
-          // res.redirect('/');
         }else{
           res.status(403).send(`Password doesn't match`);
         }
@@ -221,8 +211,6 @@ module.exports = function(DataHelpers, middlewares) {
           } else {
             req.session.user_id = newUser._id;
             res.status(201).send(newUser);
-            // res.redirect('/login');
-            // res.status(201).send();
           }
         });
 

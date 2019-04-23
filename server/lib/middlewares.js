@@ -12,7 +12,6 @@ module.exports = function middlewares(DataHelpers) {
 
     // checks if the user is logged in
     isLoggedIn: (req, res, next)=>{
-        console.log('isLoggedIn: .... req.session.user_id ', req.session.user_id);
       if(!isUserLoggedIn(req.session.user_id)){
         return res.status(403).send(`Please login or register`);
         // return res.redirect('/login');
@@ -33,7 +32,6 @@ module.exports = function middlewares(DataHelpers) {
         } else {
 
           // it is returning false
-          // if(ObjectId(`${tweet.userId}`) == ObjectId(`${req.session.user_id}`)){
           if(ObjectId(`${tweet.userId}`).toString() === ObjectId(`${req.session.user_id}`).toString()){
             return res.status(403).send(`Unauthorized`);
           }
