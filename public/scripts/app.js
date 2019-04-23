@@ -183,12 +183,12 @@ $(document).ready(() => {
     $('.btn-login-register').toggle('popup-display');
     $('.btn-loggedin').toggle('popup-display');
 
-    //
+    // toggle Tweet navbar size
     let addClass = 'loggedin-width';
     let removeClass = 'loggedout-width';
 
     const userId = getUserId();
-    if(!getUserId){
+    if(!userId){
       removeClass = 'loggedin-width';
       addClass = 'loggedout-width';
     }
@@ -270,8 +270,8 @@ $(document).ready(() => {
   const logout = () => {
     $.post('/logout')
     .done(function(){
-      navbarButtonToggle();
       clearUserId();
+      navbarButtonToggle();
       clearUserNavbar();
     });
   }

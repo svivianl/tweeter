@@ -50,7 +50,7 @@ nav {
   border-radius: 0.5rem;
   height: 4rem;
   font-size: 1.5rem;
-  padding-right: 0.5rem;
+  padding: 0.5rem 0.5rem 0 0;
 }
 
 .btn-loggedin img{
@@ -115,13 +115,6 @@ button:hover {
   display: block;
 }
 
-@media (max-width: 1020px){
-
-  #nav-bar .header.loggedin-width{
-    width: 80%;
-  }
-}
-
 /* Dropdown Button */
 .dropdown-btn {
   background-color: #00a087;
@@ -162,5 +155,21 @@ button:hover {
   color: black;
 }
 
+@media (max-width: 1020px){
 
+  #nav-bar .header.loggedin-width{
+    width: 68%;
+  }
+}
+
+@media (min-width: 1021px){
+
+  #nav-bar .header.loggedin-width{
+    width: 80%;
+  }
+
+  #nav-bar .header.loggedout-width{
+    width: 90%;
+  }
+}
 /*# sourcremappingURL=nav.css.map */
