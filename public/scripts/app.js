@@ -196,6 +196,86 @@ $(document).ready(() => {
     $('#nav-bar .header').addClass(addClass);
   }
 
+  const submitTweet = ($this) => {
+    // usrInput = "text=blablablaba"
+    const usrInput = $('textarea', $this.parent()).serialize();
+    let inputs = usrInput.split('=');
+    let message = '';
+
+    if( ( !inputs[1] ) || ( !inputs[1].replace(/\s/g, '') ) ){
+      message = 'Invalid text';
+    }
+
+    if( Number($('.counter', $this.parent()).text()) < 0){
+      message = 'Content is too long' ;
+    }
+
+    if(message){
+      messages.setMessage('.new-tweet .message', message, messages.error);
+    }else{
+      const userId = getUserId();
+      $.post(`/${userId}/tweet`, usrInput)
+      .done(function(newTweet){
+        if(newTweet){
+          $.ajax(`/${userId}`, { method: 'GET' })
+            .then(function (user) {
+              let $tweet = createTweetElement(newTweet, user);
+              $('#tweets-container').prepend($tweet);
+              $('.new-tweet textarea').val('');
+              $('.new-tweet .counter').text(charCount);
+              messages.clearMessage('.new-tweet .message');
+          });
+         }
+      })
+      .fail((XHR) =>{
+        messages.setMessage('.new-tweet .message', getResponseError(XHR), messages.error);
+      });
+    }
+  }
+
+  const register = ($this, user) => {
+    $.post('/register', { user })
+    .done(function(newUser){
+      clearPopupInput($this);
+      navbarButtonToggle();
+
+      $.post('/login', { user })
+      .done(function(userFound){
+          setUserNavbar(userFound);
+          setUserId(userFound);
+        })
+        .fail((XHR) =>{
+          messages.setMessage('#popup_register .message', getResponseError(XHR), messages.error);
+        });
+
+    })
+    .fail((XHR) =>{
+      messages.setMessage('#popup_register .message', getResponseError(XHR), messages.error);
+    });
+  }
+
+  const login = ($this, user) => {
+    $.post('/login', { user })
+    .done(function(userFound){
+      clearPopupInput($this);
+      setUserNavbar(userFound);
+      setUserId(userFound);
+      navbarButtonToggle();
+    })
+    .fail((XHR) =>{
+      messages.setMessage('#popup_login .message', getResponseError(XHR), messages.error);
+    });
+  }
+
+  const logout = () => {
+    $.post('/logout')
+    .done(function(){
+      navbarButtonToggle();
+      clearUserId();
+      clearUserNavbar();
+    });
+  }
+
   const liked = function(id, $label){
     $.ajax(`/tweets/${id}/liked`, { method: 'PUT' })
     .done(function(tweet){
@@ -255,41 +335,7 @@ $(document).ready(() => {
   $('.new-tweet form').submit(function(e){
     e.preventDefault();
 
-
-    // usrInput = "text=blablablaba"
-    const usrInput = $('textarea', $(this).parent()).serialize();
-    let inputs = usrInput.split('=');
-    let message = '';
-
-    if( ( !inputs[1] ) || ( !inputs[1].replace(/\s/g, '') ) ){
-      message = 'Invalid text';
-    }
-
-    if( Number($('.counter', $(this).parent()).text()) < 0){
-      message = 'Content is too long' ;
-    }
-
-    if(message){
-      messages.setMessage('.new-tweet .message', message, messages.error);
-    }else{
-      const userId = getUserId();
-      $.post(`/${userId}/tweet`, usrInput)
-      .done(function(newTweet){
-        if(newTweet){
-          $.ajax(`/${userId}`, { method: 'GET' })
-            .then(function (user) {
-              let $tweet = createTweetElement(newTweet, user);
-              $('#tweets-container').prepend($tweet);
-              $('.new-tweet textarea').val('');
-              $('.new-tweet .counter').text(charCount);
-              messages.clearMessage('.new-tweet .message');
-          });
-         }
-      })
-      .fail((XHR) =>{
-        messages.setMessage('.new-tweet .message', getResponseError(XHR), messages.error);
-      });
-    }
+    submitTweet($(this));
   });
 
   $('#btn-login').on('click', function(e){
@@ -311,24 +357,7 @@ $(document).ready(() => {
     const $this = $(this);
     const user = getPopupInput($this);
 
-    $.post('/register', { user })
-    .done(function(newUser){
-      clearPopupInput($this);
-      navbarButtonToggle();
-
-      $.post('/login', { user })
-      .done(function(userFound){
-          setUserNavbar(userFound);
-          setUserId(userFound);
-        })
-        .fail((XHR) =>{
-          messages.setMessage('#popup_register .message', getResponseError(XHR), messages.error);
-        });
-
-    })
-    .fail((XHR) =>{
-      messages.setMessage('#popup_register .message', getResponseError(XHR), messages.error);
-    });
+    register($this, user);
   });
 
   // submit login
@@ -338,28 +367,13 @@ $(document).ready(() => {
     const $this = $(this);
     const user = getPopupInput($this);
 
-    $.post('/login', { user })
-    .done(function(userFound){
-      clearPopupInput($this);
-      setUserNavbar(userFound);
-      setUserId(userFound);
-      navbarButtonToggle();
-    })
-    .fail((XHR) =>{
-      messages.setMessage('#popup_login .message', getResponseError(XHR), messages.error);
-    });
+    login($this, user);
   });
 
   // submit logout
   $('#btn-logout').on('click', function(e){
     e.preventDefault();
-
-    $.post('/logout')
-    .done(function(){
-      navbarButtonToggle();
-      clearUserId();
-      clearUserNavbar();
-    });
+    logout();
   });
 
   // avatar nav bar
@@ -373,6 +387,7 @@ $(document).ready(() => {
 
     const $this = $(this);
     const user = getPopupInput($this);
+
     liked($(this).data('tweeterId'), $this.parent());
   });
 
