@@ -4,16 +4,14 @@
 
 const dotenv        = require('dotenv');
 const result        = dotenv.config();
-const PORT          = 8080;
+const PORT          = process.env.PORT || 8080;
 const express       = require("express");
 const bodyParser    = require("body-parser");
 const app           = express();
 const cookieSession = require('cookie-session');
 const MongoClient   = require("mongodb").MongoClient;
 const MONGODB_URI   = process.env.MONGODB_URI;
-console.log('..........................................logs');
-console.log(process.env.MONGODB_URI);
-console.log(MONGODB_URI);
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(cookieSession({
