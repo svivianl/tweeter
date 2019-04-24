@@ -69,7 +69,8 @@ module.exports = function makeDataHelpers(db) {
         if (err) {
           return callback(err);
         }
-        callback(null, user[0]);
+
+        user[0] ? callback(null, user[0]) : callback('User not found');
       });
     },
 
